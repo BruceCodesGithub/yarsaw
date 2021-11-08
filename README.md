@@ -32,4 +32,4 @@ To contribute, fork this repo, make your changes, then start a Pull Request
 
 ## To-Do
 
-[] Add docstrings to functions in client
+- [ ] Add docstrings to functions in client
