@@ -9,7 +9,6 @@ YARSAW is an Async Python API Wrapper for the [Random Stuff API](https://api-inf
 ### `1.0`
 
 (stable)
-- Added help to functions
 - Updated docs
 - Renamed functions in `Client()`
     - `ai` -> `get_ai_response()`
@@ -27,3 +26,10 @@ YARSAW is an Async Python API Wrapper for the [Random Stuff API](https://api-inf
 ## Documentation
 
 Make sure to read the docs at [https://namantech.me/yarsaw](https://namantech.me/yarsaw/).
+
+## Contributing 
+To contribute, fork this repo, make your changes, then start a Pull Request
+
+## To-Do
+
+[] Add docstrings to functions in client
