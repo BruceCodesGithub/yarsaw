@@ -1,9 +1,6 @@
 class InvalidPlanException(Exception):
     pass
     
-class InvalidArgumentsException(Exception):
-    pass
-    
 class InvalidAPIKeyException(Exception):
     pass
 

@@ -38,10 +38,73 @@ async def check_res(res):
     if res.status == 200:
         pass
     elif res.status == 401:
-        print("Yes")
         raise InvalidAPIKeyException(await res.text())
     elif res.status == 403:
         raise InvalidAPIKeyException(await res.text())
-
     elif res.status == 429:
         raise RateLimited(await res.text())
+
+CANVAS_METHODS = [
+            "affect",
+            "beautiful",
+            "wanted",
+            "delete",
+            "trigger",
+            "facepalm",
+            "blur",
+            "hitler",
+            "kiss",
+            "jail",
+            "invert",
+            "jokeOverHead",
+            "bed",
+            "fuse",
+            "kiss",
+            "slap",
+            "spank",
+            "distracted",
+            "changemymind",
+        ]
+CANVAS_ALLOWED_COMBINATIONS = {
+            1: [
+                "affect",
+                "beautiful",
+                "wanted",
+                "delete",
+                "trigger",
+                "facepalm",
+                "blur",
+                "hitler",
+                "kiss",
+                "jail",
+                "invert",
+                "jokeOverHead",
+                "changemymind",
+            ],
+            2: ["bed", "fuse", "kiss", "slap", "spank"],
+            3: ["distracted"],
+        }
+
+
+JOKE_TYPES = (
+            "any",
+            "dark",
+            "pun",
+            "spooky",
+            "christmas",
+            "programming",
+            "misc",
+        )
+
+IMAGE_TYPES = (
+            "aww",
+            "duck",
+            "dog",
+            "cat",
+            "memes",
+            "dankmemes",
+            "holup",
+            "art",
+            "harrypottermemes",
+            "facepalm",
+        )

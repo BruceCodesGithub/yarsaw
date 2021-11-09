@@ -58,21 +58,9 @@ class Client:
         return await self.client.request("weather", params={"city": city})
 
     async def get_image(self, img_type: str):
-        type_list = (
-            "aww",
-            "duck",
-            "dog",
-            "cat",
-            "memes",
-            "dankmemes",
-            "holup",
-            "art",
-            "harrypottermemes",
-            "facepalm",
-        )
-        if img_type.lower() not in type_list:
-            supported_types = ", ".join(type_list)
-            raise InvalidArgumentsException(f"Invalid Type. Supported types are: {supported_types}")
+        if img_type.lower() not in IMAGE_TYPES:
+            supported_types = ", ".join(IMAGE_TYPES)
+            raise ValueError(f"Invalid Type. Supported types are: {supported_types}")
         else:
             return await self.client.request("image", params={"type": img_type})
 
@@ -82,19 +70,10 @@ class Client:
         )
 
     async def get_joke(self, joke_type="any", blacklist: list = []):
-        joke_type_list = (
-            "any",
-            "dark",
-            "pun",
-            "spooky",
-            "christmas",
-            "programming",
-            "misc",
-        )
         joke_type = joke_type.lower()
-        if joke_type not in joke_type_list:
-            supported_types = ", ".join(joke_type_list)
-            raise InvalidArgumentsException(f"Invalid Type. Supported types are: {supported_types}")
+        if joke_type not in JOKE_TYPES:
+            supported_types = ", ".join(JOKE_TYPES)
+            raise ValueError(f"Invalid Type. Supported types are: {supported_types}")
         blist = ""
         if blacklist:
 
@@ -119,50 +98,10 @@ class Client:
         )
 
     async def canvas(self, method, save_as=None, **kwargs):
-        all_methods = [
-            "affect",
-            "beautiful",
-            "wanted",
-            "delete",
-            "trigger",
-            "facepalm",
-            "blur",
-            "hitler",
-            "kiss",
-            "jail",
-            "invert",
-            "jokeOverHead",
-            "bed",
-            "fuse",
-            "kiss",
-            "slap",
-            "spank",
-            "distracted",
-            "changemymind",
-        ]
-        allowed_combinations = {
-            1: [
-                "affect",
-                "beautiful",
-                "wanted",
-                "delete",
-                "trigger",
-                "facepalm",
-                "blur",
-                "hitler",
-                "kiss",
-                "jail",
-                "invert",
-                "jokeOverHead",
-                "changemymind",
-            ],
-            2: ["bed", "fuse", "kiss", "slap", "spank"],
-            3: ["distracted"],
-        }
-        if method in allowed_combinations[len(kwargs.items())] and all_methods:
+        if method in CANVAS_ALLOWED_COMBINATIONS[len(kwargs.items())] and CANVAS_METHODS:
             pass
         else:
-            raise InvalidArgumentsException(
+            raise ValueError(
                 "That method either does not exist, or takes more arguments. Try reading the docs and checking if everything is in the right case."
             )
         params = {

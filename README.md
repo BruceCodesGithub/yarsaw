@@ -28,7 +28,7 @@ YARSAW is an Async Python API Wrapper for the [Random Stuff API](https://api-inf
 Make sure to read the docs at [https://namantech.me/yarsaw](https://namantech.me/yarsaw/).
 
 ## Contributing 
-To contribute, fork this repo, make your changes, then start a Pull Request
+To contribute, fork the repo, make your changes, then start a Pull Request in the repo.
 
 ## To-Do
 
