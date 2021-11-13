@@ -10,8 +10,8 @@ class Client:
 
     Methods:
     Note: All methods are async.
-    
-    close: Closes the connection with the API. 
+
+    close: Closes the connection with the API.
     get_ai_response: Fetches ai responses from the API.
     canvas: Edit images with the API.
     get_covid_stats: Fetch covid stats from the API.
@@ -40,9 +40,9 @@ class Client:
         Kwargs:
         All Kwargs are optional and are used to customize the response.
 
-        server: The server you want to send the message to. 
-        uid: A id of the user sending the message 
-        name: Give a name to your project 
+        server: The server you want to send the message to.
+        uid: A id of the user sending the message
+        name: Give a name to your project
         gender: Give a gender to the project
         age: The age of the project
         master: The creator of the project
@@ -91,7 +91,9 @@ class Client:
         response = await self._client.request(endpoint, params=params)
         return response
 
-    async def canvas(self, method, save_to=None, txt=None, text=None, img1=None, img2=None, img3=None) -> bytes:
+    async def canvas(
+        self, method, save_to=None, txt=None, text=None, img1=None, img2=None, img3=None
+    ) -> bytes:
         """
         Edit Images with the API.
 
@@ -111,10 +113,12 @@ class Client:
         img2: The path/link to the second image. (Optional)
         img3: The path/link to the third image. (Optional)
         """
-        
+
         if method.lower() not in CANVAS_METHODS:
             supported_methods = ", ".join(CANVAS_METHODS)
-            raise ValueError(f"That method does not exist! Supported Methods: {supported_methods}")
+            raise ValueError(
+                f"That method does not exist! Supported Methods: {supported_methods}"
+            )
 
         params = {
             "method": method,
@@ -137,8 +141,8 @@ class Client:
                 base = base[0]["base64"]
 
         if save_to:
-            file = open(save_to, 'wb')
-            file.write(base64.b64decode((base))) 
+            file = open(save_to, "wb")
+            file.write(base64.b64decode((base)))
             file.close()
 
             return file
@@ -181,7 +185,9 @@ class Client:
                 "Invalid Plan. Make sure the plan exists and you specified it in the 'plan' format instead of 'premium/plan'. Eg - 'pro'."
             )
         if fact_type.lower() not in FACT_TYPES:
-            raise ValueError("Invalid fact type! Allowed types: all, dog, cat, space, covid, computer, food, emoji")
+            raise ValueError(
+                "Invalid fact type! Allowed types: all, dog, cat, space, covid, computer, food, emoji"
+            )
         return await self._client.request(
             f"premium/{plan.lower()}/facts", params={"type": fact_type}
         )
@@ -236,9 +242,9 @@ class Client:
         joke_type: The type of joke to be fetched. (Optional)
             Allowed Tyes: "any", "dark", "pun", "spooky", "christmas", "programming", "misc"
         """
-        
+
         joke = await self.get_joke()
-        while joke['safe'] != True:
+        while joke["safe"] != True:
             joke = await self.get_joke()
         return joke
 
@@ -259,7 +265,9 @@ class Client:
             )
         if not waifu_type.lower() in WAIFU_TYPES:
             supported_types = ", ".join(WAIFU_TYPES)
-            raise ValueError(f"Invalid Waifu Type. Supported types are: {supported_types}")
+            raise ValueError(
+                f"Invalid Waifu Type. Supported types are: {supported_types}"
+            )
         return await self._client.request(
             f"premium/{plan.lower()}/waifu", params={"type": waifu_type.lower()}
         )

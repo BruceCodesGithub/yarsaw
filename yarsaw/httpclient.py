@@ -1,6 +1,7 @@
 import aiohttp
 from .utils import check_res
 
+
 class HTTPClient:
     def __init__(self, authorization: str):
         self.__key = authorization
@@ -10,7 +11,7 @@ class HTTPClient:
     async def request(self, endpoint, *, params=None):
         if params is None:
             params = {}
-        
+
         async with self._session.get(
             f"{self._base}/{endpoint}",
             headers={"Authorization": self.__key},
