@@ -5,7 +5,7 @@ import random
 
 async def format_joke(joke : dict, format_as="{setup}\n{delivery}") -> str:
         if not '{setup}' in format_as or not '{delivery}' in format_as:
-            raise InvalidArgumentsException("'format_as' must contain the '{setup}' and '{devlivery}' values")
+            raise ValueError("'format_as' must contain the '{setup}' and '{devlivery}' values")
         if joke.get('type') == 'twopart':
             return format_as.format(setup=joke.get('setup'), delivery=joke.get('delivery'))
         else:
@@ -65,25 +65,7 @@ CANVAS_METHODS = [
             "distracted",
             "changemymind",
         ]
-CANVAS_ALLOWED_COMBINATIONS = {
-            1: [
-                "affect",
-                "beautiful",
-                "wanted",
-                "delete",
-                "trigger",
-                "facepalm",
-                "blur",
-                "hitler",
-                "kiss",
-                "jail",
-                "invert",
-                "jokeOverHead",
-                "changemymind",
-            ],
-            2: ["bed", "fuse", "kiss", "slap", "spank"],
-            3: ["distracted"],
-        }
+
 
 
 JOKE_TYPES = (
@@ -108,3 +90,23 @@ IMAGE_TYPES = (
             "harrypottermemes",
             "facepalm",
         )
+
+WAIFU_TYPES = (
+    "waifu",
+    "neko",
+    "shinobu",
+    "megumin",
+    "bully",
+    "cuddle"
+    )
+
+FACT_TYPES = (
+    "all",
+    "dog",
+    "cat",
+    "space",
+    "covid",
+    "computer",
+    "food",
+    "emoji"
+    )
