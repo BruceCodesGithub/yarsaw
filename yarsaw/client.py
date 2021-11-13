@@ -281,8 +281,14 @@ class Client:
         """
         return await self._client.request("weather", params={"city": city})
 
-    async def close(self):
+    async def disconnect(self):
         await self._client.close()
 
     async def restart(self):
         self._client = HTTPClient(self.__key)
+
+    async def connect(self):
+        if self._client:
+            pass
+        else:
+            self._client = HTTPClient(self.__key)
