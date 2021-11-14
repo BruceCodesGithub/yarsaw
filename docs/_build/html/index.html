@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to YARSAW!</title> 
+  <!-- end extra head -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+  <link rel="stylesheet" type="text/css" href="_static/basic.css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
+  <link rel="stylesheet" href="_static/codeblocks.css" type="text/css" />
+  <link rel="stylesheet" href="_static/icons.css" type="text/css" />
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+  <script src="_static/jquery.js"></script>
+  <script src="_static/underscore.js"></script>
+  <script src="_static/doctools.js"></script>
+  <script src="_static/copy.js"></script>
+  <script src="_static/settings.js"></script>
+  <script src="_static/sidebar.js"></script>
+  <script src="_static/custom.js"></script>
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+</head>
+<body>
+  <div class="main-grid">
+    <header class="grid-item">
+      <nav>
+        <a href="#" class="main-heading">YARSAW</a>
+        <a onclick="mobileSearch.open();" title="Search" id="open-search" class="mobile-only"><span class="material-icons">search</span></a>
+        <a onclick="mobileSearch.close();" title="Close" id="close-search" class="mobile-only" hidden><span class="material-icons">close</span></a>
+      </nav>
+      <nav class="mobile-only">
+        <form role="search" class="search" action="search.html" method="get">
+          <div class="search-wrapper">
+            <input type="search" name="q" placeholder="Search documentation" />
+            <button type="submit">
+              <span class="material-icons">search</span>
+            </button>
+          </div>
+        </form>
+      </nav>
+    </header>
+    <div class="sub-header grid-item">
+      <label for="documentation_select">View Documentation For</label>
+      <select id="documentation_select" onchange="window.location = this.value;">
+        <option value="#">YARSAW</option>
+      </select>
+      <form role="search" class="search" action="search.html" method="get">
+        <div class="search-wrapper">
+          <input type="search" name="q" placeholder="Search documentation" />
+          <button type="submit">
+            <span class="material-icons">search</span>
+          </button>
+        </div>
+      </form>
+      <a accesskey="S" class="settings" onclick="settingsModal.open();"><span class="material-icons">settings</span></a>
+    </div>
+    <aside class="grid-item">
+      <span id="hamburger-toggle">
+        <span class="material-icons">menu</span>
+      </span>
+      <span id="settings-toggle" class="settings" onclick="settingsModal.open();">
+        <span class="material-icons">settings</span>
+      </span>
+      <div id="sidebar">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to YARSAW!</a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#first-steps">First Steps</a></li>
+<li><a class="reference internal" href="#pages">Pages</a></li>
+<li><a class="reference internal" href="#how-to-read-the-documentation">How to read the documentation</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </aside>
+    <main class="grid-item" role="main">
+      
+  <section id="welcome-to-yarsaw">
+<h1>Welcome to YARSAW!<a class="headerlink" href="#welcome-to-yarsaw" title="Permalink to this headline">¶</a></h1>
+<p>YARSAW is an open source, free and easy to use API Wrapper for the <a class="reference external" href="https://api-info.pgamerx.com">Random Stuff API</a>.</p>
+<div class="toctree-wrapper compound">
+</div>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Wraps all of the <a class="reference external" href="https://api-info.pgamerx.com">Random Stuff API</a></p></li>
+<li><p>Asynchronous</p></li>
+<li><p>Easy to use</p></li>
+<li><p>Saves you a lot of time</p></li>
+</ul>
+</section>
+<section id="first-steps">
+<h2>First Steps<a class="headerlink" href="#first-steps" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Install the package</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m pip install yarsaw
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Register for an account at the <a class="reference external" href="https://api-info.pgamerx.com/register">Random Stuff API resgistration page</a>.</p></li>
+<li><p>Import the module nad create an instance of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Client</span></code></p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yarsaw</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">yarsaw</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="s2">&quot;your_api_key&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Use the client to get a random joke (to get familiar with the module)</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yarsaw</span>
+<span class="kn">import</span> <span class="nn">asyncio</span> <span class="c1"># builtin, used for asynchronous calls</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">yarsaw</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="s2">&quot;your_api_key&quot;</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">joke</span><span class="p">():</span>
+   <span class="n">joke</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_joke</span><span class="p">()</span> <span class="c1"># get the joke in form of a dict</span>
+   <span class="n">formatted_joke</span> <span class="o">=</span> <span class="k">await</span> <span class="n">yarsaw</span><span class="o">.</span><span class="n">Utils</span><span class="p">()</span><span class="o">.</span><span class="n">format_joke</span><span class="p">(</span><span class="n">joke</span><span class="p">)</span> <span class="c1"># format the joke (optional)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="n">formatted_joke</span><span class="p">)</span> <span class="c1"># print the joke</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">joke</span><span class="p">())</span> <span class="c1"># run the joke() function</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Start reading the documentation!</p></li>
+</ol>
+</section>
+<section id="pages">
+<h2>Pages<a class="headerlink" href="#pages" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#"><span class="doc">Welcome to YARSAW!</span></a> - The main page of the documentation</p></li>
+<li><p><a class="reference internal" href="client.html"><span class="doc">Client</span></a> - Explains how to use the client - the main class <strong>[Very Important]</strong></p></li>
+<li><p><a class="reference internal" href="utils.html"><span class="doc">Utils</span></a> - Extra support functions for <a class="reference internal" href="client.html"><span class="doc">Client</span></a>’s functions</p></li>
+</ul>
+</section>
+<section id="how-to-read-the-documentation">
+<h2>How to read the documentation<a class="headerlink" href="#how-to-read-the-documentation" title="Permalink to this headline">¶</a></h2>
+<img alt="https://gimi-my-beans.reeee.ee/geOe5E.png" src="https://gimi-my-beans.reeee.ee/geOe5E.png" />
+<img alt="https://gimi-my-beans.reeee.ee/7d9GQM.png" src="https://gimi-my-beans.reeee.ee/7d9GQM.png" />
+<img alt="https://gimi-my-beans.reeee.ee/z8rcNM.png" src="https://gimi-my-beans.reeee.ee/z8rcNM.png" />
+</section>
+</section>
+
+
+    </main>
+    <footer class="grid-item">
+        &#169; Copyright 2021, BruceCodesGithub.
+    </footer>
+  </div>
+
+  <div id="settings" class="modal" onclick="if (event.target == this){ settingsModal.close(); }" hidden>
+    <div class="modal-content">
+      <span class="close" onclick="settingsModal.close();" title="Close">
+        <span class="material-icons">close</span>
+      </span>
+      <h1>Settings</h1>
+
+      <div class="setting">
+        
+      </div>
+
+      <h2>Theme</h2>
+      <div class="setting">
+        <h3>
+          <label class="toggle" title="Set your theme based on your system preferences">
+            <input type="radio" name="setTheme" onclick="updateSetting(this);" value="automatic" checked>
+          </label>
+          Automatic
+        </h3>
+        <h3>
+          <label class="toggle" title="Set your theme to light theme">
+            <input type="radio" name="setTheme" onclick="updateSetting(this);" value="light">
+          </label>
+          Light
+        </h3>
+        <h3>
+          <label class="toggle" title="Set your theme to dark theme">
+            <input type="radio" name="setTheme" onclick="updateSetting(this);" value="dark">
+          </label>
+          Dark
+        </h3>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="to-top" onclick="scrollToTop()" hidden>
+    <span><span class="material-icons">arrow_upward</span> to top</span>
+  </div>
+
+</body>
+</html>
