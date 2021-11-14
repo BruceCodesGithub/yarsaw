@@ -23,7 +23,7 @@ setup(
     ],
     long_description_content_type="text/markdown",
     project_urls={
-        "Documentation": "https://namantech.me/yarsaw/",
+        "Documentation": "https://yarsaw.namantech.me/",
         "Source": "https://github.com/BruceCodesGithub/yarsaw",
         "Tracker": "https://github.com/BruceCodesGithub/yarsaw/issues",
     },

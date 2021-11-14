@@ -28,10 +28,11 @@ class Utils:
                 "'format_as' must contain the '{setup}' and '{devlivery}' values"
             )
         if joke.get("type") == "twopart":
-            return format_as.format(setup=joke.get("setup"), delivery=joke.get("delivery"))
+            return format_as.format(
+                setup=joke.get("setup"), delivery=joke.get("delivery")
+            )
         else:
             return joke.get("joke")
-
 
     async def generate_uid(self, chars: int = 8, special_chars=False, letters=True):
         """
@@ -48,7 +49,7 @@ class Utils:
 
         letters: Optional[:class:`bool`]
             Whether or not to include letters. Defaults to True.
-        
+
         Returns
         -------
 

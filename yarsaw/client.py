@@ -33,7 +33,7 @@ class Client:
         -------------
         :class:`list`
             A list of responses from the API.
-        
+
         """
 
         params = {
@@ -153,7 +153,7 @@ class Client:
         -------------
         country: Optional[:class:`str`]
             The country to fetch stats for.
-            
+
         Returns
         -------------
         :class:`dict`

@@ -6,6 +6,20 @@ YARSAW is an Async Python API Wrapper for the [Random Stuff API](https://api-inf
 
 ## Changes
 
+### `1.2`
+(stable)
+
+- Updated Docs - now view it [here](https://yarsaw.namantech.me/)
+    - Uses ReadTheDocs.
+    - Uses Sphinx instead of MKDocs
+    - Updated the docs to be more readable.
+    - Is updated automatically with docstrings.
+    - Covers all the methods. Fixed minor mistakes.
+- Created a `Utils` class, added `format_joke()` and `generate_uid()` to the `Utils`.
+- Added docstrings to all the methods.
+- Better code style.
+- Updated many other things.
+
 ### `1.0`
 
 (stable)
@@ -25,11 +39,7 @@ YARSAW is an Async Python API Wrapper for the [Random Stuff API](https://api-inf
 
 ## Documentation
 
-Make sure to read the docs at [https://namantech.me/yarsaw](https://namantech.me/yarsaw/).
+[Read the Documention here](https://yarsaw.namantech.me/)
 
 ## Contributing 
-To contribute, fork the repo, make your changes, then start a Pull Request in the repo.
-
-## To-Do
-
-- [ ] Add docstrings to functions in client
+To contribute, fork the [Official Repository](https://github.com/BruceCodesGithub/yarsaw/) and make a pull request.
