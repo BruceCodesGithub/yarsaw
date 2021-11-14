@@ -65,8 +65,8 @@ Pages
 How to read the documentation
 ===================================
 .. image :: https://gimi-my-beans.reeee.ee/geOe5E.png
-.. image :: https://gimi-my-beans.reeee.ee/geOe5E.png
-.. image :: https://gimi-my-beans.reeee.ee/7d9GQM.png https://gimi-my-beans.reeee.ee/z8rcNM.png
+.. image :: https://gimi-my-beans.reeee.ee/7d9GQM.png
+.. image :: https://gimi-my-beans.reeee.ee/z8rcNM.png
 
 
 .. _Random Stuff API: https://api-info.pgamerx.com
