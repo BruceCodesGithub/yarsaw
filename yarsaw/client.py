@@ -8,21 +8,10 @@ class Client:
     """
     Represents an async client object used to connect with the API.
 
-    Methods:
-    Note: All methods are async.
-
-    close: Closes the connection with the API.
-    get_ai_response: Fetches ai responses from the API.
-    canvas: Edit images with the API.
-    get_covid_stats: Fetch covid stats from the API.
-    get_covid_stats_by_country: Fetch covid stats from the API by country.
-    get_fact: Fetches facts from the API.
-    get_image: Fetches images from the API.
-    get_joke: Fetches a joke from the API.
-    get_safe_joke: Fetches a safe joke from the API.
-    get_waifu: Fetches a waifu image from the API.
-    get_weather: Fetches weather data from the API.
-    restart: Restarts the connection with the API.
+    Parameters
+    -------------
+    authorization: :class:`str`
+        Your Random Stuff API Key to be used to authorize the connection.
     """
 
     def __init__(self, authorization):
@@ -33,32 +22,18 @@ class Client:
         """
         Fetches ai responses from the API.
 
-        Parameters:
-        message: Message to be sent to the API.
-        plan: The plan you bought the API with, if you did. (Optional)
+        Parameters
+        -------------
+        message: :class:`str`
+            The message to be sent to the API.
+        plan: Optional[:class:`str`]
+            The plan you bought the API with, if you did.
 
-        Kwargs:
-        All Kwargs are optional and are used to customize the response.
-
-        server: The server you want to send the message to.
-        uid: A id of the user sending the message
-        name: Give a name to your project
-        gender: Give a gender to the project
-        age: The age of the project
-        master: The creator of the project
-        company: The company the project belongs to
-        location: The location of the project
-        email: The email of the project
-        build: The type of build of the project
-        birth_year: The year the project was created
-        birth_date: The date the project was created
-        birth_place: The place the project was created
-        favorite_color: The favorite color of the bot
-        favorite_book: The favorite book of the bot
-        favorite_band: The favorite band of the bot
-        favorite_artist: The favorite artist of the bot
-        favorite_actress: The favorite actress of the bot
-        favorite_actor: The favorite actor of the bot
+        Returns
+        -------------
+        :class:`list`
+            A list of responses from the API.
+        
         """
 
         params = {
@@ -97,21 +72,42 @@ class Client:
         """
         Edit Images with the API.
 
-        Parameters:
-        method: The method to be used.
-            Allowed Methods:
-                Method(s) in which only 1 image is required: "affect", "beautiful", "wanted", "delete", "trigger", "facepalm", "blur", "hitler", "kiss", "jail", "invert", "jokeOverHead"
-                Method(s) in which 2 images are required: "bed", "fuse" , "kiss", "slap", "spank"
-                Method(s) in which 3 images are required: "distracted"
-                Method(s) in which only Text is required: "changemymind"
+        Parameters
+        -------------
+        method: :class:`str`
+            The method to be used to edit the image.
 
-        Keyword Arguments:
-        save_to: The path to save the edited image. (Optional)
-        txt: The text to be used. (Optional)
-        text: The text to be used. (Optional) (Alias of txt)
-        img1: The path/link to the first image. (Optional)
-        img2: The path/link to the second image. (Optional)
-        img3: The path/link to the third image. (Optional)
+            **Allowed Methods**:
+
+                - Method(s) in which only 1 image is required: "affect", "beautiful", "wanted", "delete", "trigger", "facepalm", "blur", "hitler", "kiss", "jail", "invert", "jokeOverHead"
+                - Method(s) in which 2 images are required: "bed", "fuse" , "kiss", "slap", "spank"
+                - Method(s) in which 3 images are required: "distracted"
+                - Method(s) in which only Text is required: "changemymind"
+
+        save_to: Optional[:class:`str`]
+            The path to save the edited image to. If not specified, the edited image will be returned as bytes.
+
+        txt: Optional[:class:`str`]
+            The text required for your method.
+
+        text: Optional[:class:`str`]
+            The text required for your method. Alias of txt.
+
+        img1: Optional[:class:`str`]
+            The path/link to the first image.
+
+        img2: Optional[:class:`str`]
+            The path/link to the second image.
+
+        img3: Optional[:class:`str`]
+            The path/link to the third image.
+
+        Returns
+        -------------
+        Union[:class:`bytes`, :class:`io.BufferedImage`]
+            If save_to is not specified, the edited image will be returned as bytes.
+            If save_to is specified, the edited image will be saved to the specified path, and will return the image.
+
         """
 
         if method.lower() not in CANVAS_METHODS:
@@ -153,8 +149,15 @@ class Client:
         """
         Fetch covid stats from the API.
 
-        Parameters:
-        country: Country name (Optional)
+        Parameters
+        -------------
+        country: Optional[:class:`str`]
+            The country to fetch stats for.
+            
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the stats.
         """
         if country is None:
             params = None
@@ -166,8 +169,15 @@ class Client:
         """
         Fetch covid stats from the API by country.
 
-        Parameters:
-        country: Country name
+        Parameters
+        -------------
+        country: :class:`str`
+            The country to fetch stats for.
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the stats.
         """
         return await self._client.request("covid", params={"country": country})
 
@@ -175,10 +185,14 @@ class Client:
         """
         Fetches facts from the API.
 
-        Keyword Arguments:
-        plan: The plan you bought the API with.
-        fact_type: The type of fact to be fetched. (Optional)
-            Allowed Types: all, dog, cat, space, covid, computer, food, emoji
+        Parameters
+        -------------
+        plan: :class:`str`
+            The plan you bought to use the API.
+
+        fact_type: Optional[:class:`str`]
+            The type of fact you want to fetch.
+            Allowed Values: "all", "dog", "cat", "space", "covid", "computer", "food", "emoji"
         """
         if plan.lower() not in PLANS:
             raise InvalidPlanException(
@@ -196,9 +210,16 @@ class Client:
         """
         Fetches images from the API.
 
-        Parameters:
-        img_type: Type of image to be fetched.
-            Allowed Types: "aww", "duck", "dog", "cat", "memes", "dankmemes", "holup", "art", "harrypottermemes", "facepalm"
+        Parameters
+        -------------
+        img_type: :class:`str`
+            The type of image you want to fetch.
+            Allowed Values: "aww", "duck", "dog", "cat", "memes", "dankmemes", "holup", "art", "harrypottermemes", "facepalm"
+
+        Returns
+        -------------
+        :class:`list`
+            A list containing the image(s).
         """
         if img_type.lower() not in IMAGE_TYPES:
             supported_types = ", ".join(IMAGE_TYPES)
@@ -210,11 +231,20 @@ class Client:
         """
         Fetches jokes from the API.
 
-        Keyword Arguments:
-        joke_type: The type of joke to be fetched. (Optional)
-            Allowed Tyes: "any", "dark", "pun", "spooky", "christmas", "programming", "misc"
-        blacklist: A list of blacklisted joke types. (Optional)
-            Allowed Types: "all", "nsfw", "religious", "political", "racist", "sexist", "explicit"
+        Parameters
+        -------------
+        joke_type: Optional[:class:`str`]
+            The type of joke you want to fetch.
+            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "programming", "misc"
+
+        blacklist: Optional[:class:`list`]
+            A list of types jokes you want to blacklist.
+            Allowed Values: "all", "nsfw", "religious", "political", "racist", "sexist", "explicit"
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the joke.
         """
         joke_type = joke_type.lower()
         if joke_type not in JOKE_TYPES:
@@ -238,9 +268,16 @@ class Client:
         """
         Fetches safe jokes from the API. These jokes are family-friendly.
 
-        Keyword Arguments:
-        joke_type: The type of joke to be fetched. (Optional)
-            Allowed Tyes: "any", "dark", "pun", "spooky", "christmas", "programming", "misc"
+        Parameters
+        -------------
+        joke_type: Optional[:class:`str`]
+            The type of joke you want to fetch.
+            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "programming", "misc"
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the joke.
         """
 
         joke = await self.get_joke()
@@ -252,12 +289,14 @@ class Client:
         """
         Fetches waifus from the API.
 
-        Parameters:
-        waifu_type: The type of waifu to be fetched.
-            Allowed Types: waifu, neko, shinobu, megumin, bully, cuddle
+        Parameters
+        -------------
+        waifu_type: :class:`str`
+            The type of waifu you want to fetch.
+            Allowed Values: "waifu", "neko", "shinobu", "megumin", "bully", "cuddle"
 
-        Keyword Arguments:
-        plan: The plan you bought the API with.
+        plan: :class:`str`
+            The plan you bought to use the API.
         """
         if not plan.lower() in PLANS:
             raise InvalidPlanException(
@@ -274,20 +313,36 @@ class Client:
 
     async def get_weather(self, city) -> list:
         """
-        Fetches weather from the API.
+        Fetches weather data from the API.
 
-        Parameters:
-        city: City name
+        Parameters
+        -------------
+        city: :class:`str`
+            The city you want to fetch weather for.
+
+        Returns
+        -------------
+        :class:`list`
+            A list containing the weather data.
         """
         return await self._client.request("weather", params={"city": city})
 
     async def disconnect(self):
+        """
+        Disconnects the client from the API.
+        """
         await self._client.close()
 
     async def restart(self):
+        """
+        Restarts the client's connection with the API.
+        """
         self._client = HTTPClient(self.__key)
 
     async def connect(self):
+        """
+        Connects the client to the API, incase it's not already connected.
+        """
         if self._client:
             pass
         else:

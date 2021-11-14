@@ -3,28 +3,68 @@ import string
 import random
 
 
-async def format_joke(joke: dict, format_as="{setup}\n{delivery}") -> str:
-    if not "{setup}" in format_as or not "{delivery}" in format_as:
-        raise ValueError(
-            "'format_as' must contain the '{setup}' and '{devlivery}' values"
-        )
-    if joke.get("type") == "twopart":
-        return format_as.format(setup=joke.get("setup"), delivery=joke.get("delivery"))
-    else:
-        return joke.get("joke")
+class Utils:
+    async def format_joke(self, joke: dict, format_as="{setup}\n{delivery}") -> str:
+        """
+        Support function for Client().get_joke(). Auto-format a joke. If its a single type of joke, it returns the joke itself. If its a two-part joke, it returns the setup and delivery, separated by a newline or a character you choose.
+
+        Parameters
+        ----------
+
+        joke: :class:`dict`
+            A dictionary containing the joke.
+
+        format_as: Optional[:class:`str`]
+            The format to use. Defaults to ``"{setup}\\n{delivery}"``.
+
+        Returns
+        -------
+
+        :class:`str`
+            The formatted joke.
+        """
+        if not "{setup}" in format_as or not "{delivery}" in format_as:
+            raise ValueError(
+                "'format_as' must contain the '{setup}' and '{devlivery}' values"
+            )
+        if joke.get("type") == "twopart":
+            return format_as.format(setup=joke.get("setup"), delivery=joke.get("delivery"))
+        else:
+            return joke.get("joke")
 
 
-async def generate_uid(chars: int = 8, special_chars=False, letters=True):
-    characters = string.digits
+    async def generate_uid(self, chars: int = 8, special_chars=False, letters=True):
+        """
+        Support function for Client().get_ai_response(). Generates a random string of characters to be used as a unique identifier for a user.
 
-    if special_chars:
-        characters = characters + string.punctuation
+        Parameters
+        ----------
 
-    if letters:
-        characters = characters + string.ascii_letters
+        chars: Optional[:class:`int`]
+            The number of characters to generate. Defaults to 8.
 
-    uid = "".join(random.choice(characters) for i in range(chars))
-    return uid
+        special_chars: Optional[:class:`bool`]
+            Whether or not to include special characters. Defaults to False.
+
+        letters: Optional[:class:`bool`]
+            Whether or not to include letters. Defaults to True.
+        
+        Returns
+        -------
+
+        :class:`str`
+            The generated UID.
+        """
+        characters = string.digits
+
+        if special_chars:
+            characters = characters + string.punctuation
+
+        if letters:
+            characters = characters + string.ascii_letters
+
+        uid = "".join(random.choice(characters) for i in range(chars))
+        return uid
 
 
 PLANS = {
