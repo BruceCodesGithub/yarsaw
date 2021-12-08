@@ -6,6 +6,12 @@ YARSAW is an Async Python API Wrapper for the [Random Stuff API](https://api-inf
 
 ## Changes
 
+### `1.3`
+(stable)
+
+- The `Client` class now returns objects which are easier to work with.
+- `RawClient` class can be used ot return the raw JSON response from the API.
+
 ### `1.2`
 (stable)
 

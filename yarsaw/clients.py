@@ -2,23 +2,28 @@ from .httpclient import HTTPClient
 from .utils import *
 import base64
 import aiohttp
+from .httpclient import HTTPClient
+from .utils import *
+from .data_classes import *
+from typing import Union
+import random
 
 
 class Client:
     """
-    Represents an async client object used to connect with the API.
+    Represents a client object used to interact with the Random Stuff API.
 
     Parameters
-    -------------
-    authorization: :class:`str`
-        Your Random Stuff API Key to be used to authorize the connection.
+    ----------
+    authorization : :class:`str`
+        Your API Key for the Random Stuff API used to authenticate your requests.
     """
 
     def __init__(self, authorization):
-        self._client = HTTPClient(authorization.strip())
-        self.__key = authorization
+        self.session = HTTPClient(authorization.strip().replace(" ", ""))
+        self.__key = authorization.strip().replace(" ", "")
 
-    async def get_ai_response(self, message, *, plan="free", **kwargs) -> list:
+    async def get_ai_response(self, message, *, plan="free", **kwargs) -> AIResponse:
         """
         Fetches ai responses from the API.
 
@@ -31,8 +36,8 @@ class Client:
 
         Returns
         -------------
-        :class:`list`
-            A list of responses from the API.
+        :class:`yarsaw.AIResponse`
+            An object containing the response from the API.
 
         """
 
@@ -63,8 +68,12 @@ class Client:
             raise InvalidPlanException(
                 "Invalid Plan. Make sure the plan exists and you specified it in the 'plan' format instead of 'premium/plan'. Eg - 'pro'."
             )
-        response = await self._client.request(endpoint, params=params)
-        return response
+        response = await self.session.request(endpoint, params=params)
+        return AIResponse(
+            response[0]["response"],
+            response[0]["server"],
+            response[0]["uid"],
+        )
 
     async def canvas(
         self, method, save_to=None, txt=None, text=None, img1=None, img2=None, img3=None
@@ -145,41 +154,57 @@ class Client:
 
         return base64.b64decode((base))
 
-    async def get_covid_stats(self, country=None) -> dict:
+    async def get_covid_stats(
+        self, country=None
+    ) -> Union[GlobalCovidStats, CountryCovidStats]:
         """
-        Fetch covid stats from the API.
+        Get the global or country-specific COVID-19 statistics.
 
         Parameters
-        -------------
-        country: Optional[:class:`str`]
-            The country to fetch stats for.
+        ----------
+        country : Optional[:class:`str`]
+            The country you want to get the statistics for.
 
         Returns
-        -------------
-        :class:`dict`
-            A dictionary containing the stats.
+        -------
+        Union[:class:`GlobalCovidStats`, :class:`CountryCovidStats`]
+            Objects containing the statistics.
         """
         if country is None:
             params = None
         else:
             params = {"country": country}
-        return await self._client.request("covid", params=params)
-
-    async def get_covid_stats_by_country(self, country) -> dict:
-        """
-        Fetch covid stats from the API by country.
-
-        Parameters
-        -------------
-        country: :class:`str`
-            The country to fetch stats for.
-
-        Returns
-        -------------
-        :class:`dict`
-            A dictionary containing the stats.
-        """
-        return await self._client.request("covid", params={"country": country})
+        response = await self.session.request("covid", params=params)
+        if country is None:
+            return GlobalCovidStats(
+                int(response["totalCases"].replace(",", "")),
+                int(response["totalDeaths"].replace(",", "")),
+                int(response["totalRecovered"].replace(",", "")),
+                int(response["activeCases"].replace(",", "")),
+                int(response["closedCases"].replace(",", "")),
+                Condition(
+                    int(response["condition"]["mild"].replace(",", "")),
+                    int(response["condition"]["critical"].replace(",", "")),
+                ),
+            )
+        else:
+            if response["country"]["name"] == "":
+                raise ValueError("Country not found")
+            return CountryCovidStats(
+                Country(
+                    response["country"]["name"],
+                    response["country"]["flagImg"],
+                ),
+                Cases(
+                    int(response["cases"]["total"].replace(",", "")),
+                    int(response["cases"]["recovered"].replace(",", "")),
+                    int(response["cases"]["deaths"].replace(",", "")),
+                    Closed(
+                        int(response["closedCases"]["total"].replace(",", "")),
+                        response["closedCases"]["percentage"],
+                    ),
+                ),
+            )
 
     async def get_fact(self, *, plan, fact_type="all"):
         """
@@ -202,32 +227,37 @@ class Client:
             raise ValueError(
                 "Invalid fact type! Allowed types: all, dog, cat, space, covid, computer, food, emoji"
             )
-        return await self._client.request(
+        return await self.session.request(
             f"premium/{plan.lower()}/facts", params={"type": fact_type}
         )
 
-    async def get_image(self, img_type: str) -> list:
+    async def get_image(self, img_type=None) -> str:
         """
         Fetches images from the API.
 
         Parameters
         -------------
-        img_type: :class:`str`
-            The type of image you want to fetch.
+        img_type: Optional[:class:`str`]
+            The type of image you want to fetch. If not specified, it will fetch a random image.
             Allowed Values: "aww", "duck", "dog", "cat", "memes", "dankmemes", "holup", "art", "harrypottermemes", "facepalm"
 
         Returns
         -------------
-        :class:`list`
-            A list containing the image(s).
+        :class:`str`
+            The URL of the image.
         """
+        if not img_type:
+            img_type = random.choice(IMAGE_TYPES)
         if img_type.lower() not in IMAGE_TYPES:
             supported_types = ", ".join(IMAGE_TYPES)
             raise ValueError(f"Invalid Type. Supported types are: {supported_types}")
         else:
-            return await self._client.request("image", params={"type": img_type})
+            if not img_type:
+                img_type = random.choice(IMAGE_TYPES)
+            response = await self.session.request("image", params={"type": img_type})
+            return response[0]
 
-    async def get_joke(self, joke_type="any", blacklist: list = []) -> dict:
+    async def get_joke(self, joke_type="any", blacklist: list = []) -> Joke:
         """
         Fetches jokes from the API.
 
@@ -243,8 +273,8 @@ class Client:
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the joke.
+        :class:`Joke`
+            An object containing the joke and its details.
         """
         joke_type = joke_type.lower()
         if joke_type not in JOKE_TYPES:
@@ -252,19 +282,40 @@ class Client:
             raise ValueError(f"Invalid Type. Supported types are: {supported_types}")
         blist = ""
         if blacklist:
-
             if "all" in blacklist:
-                print("Yay")
                 blist = "nsfw&religious&political&racist&sexist&explicit"
             else:
                 blist = "&".join(blacklist)
-        print(blist)
 
-        return await self._client.request(
+        response = await self.session.request(
             f"joke?blacklist={blist}", params={"type": joke_type}
         )
 
-    async def get_safe_joke(self, joke_type="any") -> dict:
+        if response["type"] == "twopart":
+            return Joke(
+                response["error"],
+                response["category"],
+                response["type"],
+                response["flags"],
+                response["id"],
+                response["safe"],
+                response["lang"],
+                setup=response["setup"],
+                delivery=response["delivery"],
+            )
+        else:
+            return Joke(
+                response["error"],
+                response["category"],
+                response["type"],
+                response["flags"],
+                response["id"],
+                response["safe"],
+                response["lang"],
+                joke=response["joke"],
+            )
+
+    async def get_safe_joke(self, joke_type="any") -> Joke:
         """
         Fetches safe jokes from the API. These jokes are family-friendly.
 
@@ -276,13 +327,13 @@ class Client:
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the joke.
+        :class:`Joke`
+            An object containing the joke and its details.
         """
 
-        joke = await self.get_joke()
-        while joke["safe"] != True:
-            joke = await self.get_joke()
+        joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
+        while joke.safe != True:
+            joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
         return joke
 
     async def get_waifu(self, waifu_type, *, plan):
@@ -307,7 +358,7 @@ class Client:
             raise ValueError(
                 f"Invalid Waifu Type. Supported types are: {supported_types}"
             )
-        return await self._client.request(
+        return await self.session.request(
             f"premium/{plan.lower()}/waifu", params={"type": waifu_type.lower()}
         )
 
@@ -325,25 +376,25 @@ class Client:
         :class:`list`
             A list containing the weather data.
         """
-        return await self._client.request("weather", params={"city": city})
+        return await self.session.request("weather", params={"city": city})
 
     async def disconnect(self):
         """
         Disconnects the client from the API.
         """
-        await self._client.close()
+        await self.session.close()
 
     async def restart(self):
         """
         Restarts the client's connection with the API.
         """
-        self._client = HTTPClient(self.__key)
+        self.session = HTTPClient(self.__key)
 
     async def connect(self):
         """
         Connects the client to the API, incase it's not already connected.
         """
-        if self._client:
+        if self.session:
             pass
         else:
-            self._client = HTTPClient(self.__key)
+            self.session = HTTPClient(self.__key)

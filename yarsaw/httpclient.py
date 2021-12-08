@@ -22,7 +22,7 @@ class HTTPClient:
             try:
                 return await response.json()
             except aiohttp.client_exceptions.ContentTypeError:
-                return await response.text()
+                raise RuntimeError(await response.text())
 
     async def close(self):
         await self._session.close()

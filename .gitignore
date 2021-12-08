@@ -1,0 +1,8 @@
+*.log
+.env
+temp/
+__pycache__/    
+**/__pycache__/
+.idea/
+.vscode
+tests.py
