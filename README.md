@@ -11,7 +11,7 @@
 </div>
 <br>
 <br>
-<p align="center">YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the [Random Stuff API](https://api-info.pgamerx.com). This module makes it simpler for you to interact with the API and is easy to implement into your application.</p>
+<p align="center">YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the Random Stuff API. This module makes it simpler for you to interact with the API and is easy to implement into your application.</p>
 
 
 **Make sure to get an API Key from [here](https://api-info.pgamerx.com/register.html) before trying to access this module.**
