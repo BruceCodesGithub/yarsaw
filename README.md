@@ -1,8 +1,55 @@
-# Yet Another Random Stuff API Wrapper - YARSAW
+<h2 align="center">YARSAW</h2>
+<div>
+<img src="https://img.shields.io/pypi/v/yarsaw">  
 
-YARSAW is an Async Python API Wrapper for the [Random Stuff API](https://api-info.pgamerx.com). This module makes it simpler for you to interact with the API and is easy to implement into your application.
+<img alt="PyPI - License" src="https://img.shields.io/pypi/l/yarsaw">
+
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/yarsaw?color=blue">
+
+<img src='https://readthedocs.org/projects/yarsaw/badge/?version=latest' alt='Documentation Status' />
+
+</div>
+<br>
+<br>
+<p align="center">YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the [Random Stuff API](https://api-info.pgamerx.com). This module makes it simpler for you to interact with the API and is easy to implement into your application.</p>
+
 
 **Make sure to get an API Key from [here](https://api-info.pgamerx.com/register.html) before trying to access this module.**
+
+## Features
+
+- Async and fast
+- Object oriented design (Raw outputs are also available)
+- Tons of thigs you can do
+    - Get AI Responses (useful for making chatbots)
+    - Get Covid/Weather stats
+    - Edit images into memes
+    - Gets facts, jokes, images (including aww, meme, etc.)
+- Simple and easy
+- No need to learn about the Random Stuff API. Just get started with your project
+- Saves time
+
+## Examples
+
+```py
+import yarsaw
+import asyncio
+
+client = yarsaw.Client("your_api_key")
+
+async def joke():
+   joke = await client.get_joke() # get the joke
+   formatted_joke = await yarsaw.Utils().format_joke(joke) # format the joke (optional)
+   print(formatted_joke) # print the joke
+
+asyncio.get_event_loop().run_until_complete(joke()) # run the joke() function
+```
+
+## Installation
+
+```bash
+python3 -m pip install yarsaw
+```
 
 ## Changes
 
