@@ -1,5 +1,5 @@
 <h2 align="center">YARSAW</h2>
-<div>
+<div align="center">
 <img src="https://img.shields.io/pypi/v/yarsaw">  
 
 <img alt="PyPI - License" src="https://img.shields.io/pypi/l/yarsaw">
