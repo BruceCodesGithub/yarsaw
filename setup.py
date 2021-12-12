@@ -1,11 +1,11 @@
 from setuptools import setup
 
-with open("README.rst", "r", encoding="utf-8") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
     name="yarsaw",
-    version="1.3.1",
+    version="1.3.0",
     author="Bruce",
     author_email="brucealt69@gmail.com",
     description=("An async wrapper for the Random Stuff API"),
@@ -21,6 +21,7 @@ setup(
     install_requires=[
         "aiohttp",
     ],
+    long_description_content_type="text/markdown",
     project_urls={
         "Documentation": "https://yarsaw.namantech.me/",
         "Source": "https://github.com/BruceCodesGithub/yarsaw",
