@@ -54,7 +54,7 @@ python3 -m pip install yarsaw
 (stable)
 
 - The `Client` class now returns objects which are easier to work with.
-- `RawClient` class can be used ot return the raw JSON response from the API.
+- `RawClient` class can be used to return the raw JSON response from the API.
 
 ### `1.2`
 (stable)
