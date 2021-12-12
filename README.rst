@@ -29,7 +29,7 @@ Key Features
 
 - Async and fast
 - Object oriented design (Raw outputs are also available)
-- Tons of thigs you can do
+- Tons of things you can do
     - Get AI Responses (useful for making chatbots)
     - Get Covid/Weather stats
     - Edit images into memes
