@@ -14,6 +14,11 @@ YARSAW
    :target: https://pypi.python.org/pypi/py-cord
    :alt: License Info
 
+.. image:: https://readthedocs.org/projects/yarsaw/badge/?version=latest
+    :target: https://yarsaw.namantech.me/
+    :alt: Documentation Status 
+
+
 YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the `Random Stuff API <https://api-info.pgamerx.com/>`_ . This module makes it simpler for you to interact with the API and is easy to implement into your application.
 
 
@@ -24,7 +29,7 @@ Key Features
 
 - Async and fast
 - Object oriented design (Raw outputs are also available)
-- Tons of things you can do
+- Tons of thigs you can do
     - Get AI Responses (useful for making chatbots)
     - Get Covid/Weather stats
     - Edit images into memes
@@ -71,7 +76,7 @@ Changes
 `1.2`
 ^^^^^
 
-- Updated Docs - now view it [here](https://yarsaw.namantech.me/)
+- Updated Docs
     - Uses ReadTheDocs.
     - Uses Sphinx instead of MKDocs
     - Updated the docs to be more readable.
@@ -102,4 +107,5 @@ Changes
 Documentation
 -------------
 
-[Read the Documentation here](https://yarsaw.namantech.me/)
+`Read the Docs here <https://yarsaw.namantech.me/>`_
+
