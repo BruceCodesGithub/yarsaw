@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open("README.md", "r", encoding="utf-8") as fh:
+with open("README.rst", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
@@ -21,7 +21,6 @@ setup(
     install_requires=[
         "aiohttp",
     ],
-    long_description_content_type="text/markdown",
     project_urls={
         "Documentation": "https://yarsaw.namantech.me/",
         "Source": "https://github.com/BruceCodesGithub/yarsaw",
