@@ -12,7 +12,7 @@ YARSAW is an open source, free and easy to use API Wrapper for the `Random Stuff
 ===================================
 Features
 ===================================
-* Wraps all of the `Random Stuff API`_
+* Wraps all of the `Random Stuff API <https://api-info.pgamerx.com>`_
 * Asynchronous
 * Easy to use
 * Saves you a lot of time
@@ -26,7 +26,7 @@ First Steps
 
       python3 -m pip install yarsaw
 
-2. Register for an account at the `Random Stuff API resgistration page`_.
+2. Register for an account at the `Random Stuff API resgistration page <https://api-info.pgamerx.com/register>`_.
 
 3. Import the module nad create an instance of `Client <client>`
 
@@ -62,11 +62,8 @@ Clients
 Client
 -----------------------------------
 
-Warning: This is an older version of the Client. This client returns a dict instead of an object, so its harder to work with. However, everything still works. :class:`yarsaw.BetterClient`
-
 .. autoclass:: yarsaw.Client
    :members:
-   :show-inheritance:
 
 
 ===================================
