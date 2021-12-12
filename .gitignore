@@ -6,3 +6,5 @@ __pycache__/
 .idea/
 .vscode
 tests.py
+dist
+yarsaw.egg-info
