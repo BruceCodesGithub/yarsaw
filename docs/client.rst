@@ -1,5 +1,6 @@
+########
 Client
-===================================
+########
 
 .. autoclass:: yarsaw.Client
    :members:
