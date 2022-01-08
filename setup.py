@@ -5,12 +5,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="yarsaw",
-    version="1.3.0",
+    version="2.0.0",
     author="Bruce",
     author_email="brucealt69@gmail.com",
     description=("An async wrapper for the Random Stuff API"),
     license="MIT",
-    keywords="random-stuff-api rsa yarsaw prsaw randomstuff ai-chatbot covid weather jokes",
+    keywords="random-stuff-api rsa yarsaw prsaw randomstuff ai-chatbot memes canvas jokes facts all-in-one discord reddit",
     packages=["yarsaw"],
     long_description=long_description,
     classifiers=[

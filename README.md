@@ -14,7 +14,8 @@
 <p align="center">YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the Random Stuff API. This module makes it simpler for you to interact with the API and is easy to implement into your application.</p>
 
 
---Make sure to get an API Key from [here](https://api-info.pgamerx.com/register.html) before trying to access this module.--
+--Make sure to get Random Stuff API Key from [here](https://api-docs.pgamerx.com/Getting%20Started/register/) and RapidAPI Key after registering and subscribing to the API [here](https://rapidapi.com/pgamerxdev/api/)random-stuff-api).
+
 
 ## Features
 
@@ -24,6 +25,7 @@
     - Get AI Responses (useful for making chatbots)
     - Edit images into memes
     - Gets facts, jokes, images (including aww, meme, etc.)
+    - Gets reddit posts - random memes, random posts from subreddits, etc.
 - Simple and easy
 - No need to learn about the Random Stuff API. Just get started with your project
 - Saves time
