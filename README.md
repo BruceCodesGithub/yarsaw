@@ -61,6 +61,7 @@ This is a major change. The Random Stuff API was completely rewritten, and so wa
 - Since the API now has more use of headers than ever (it returns the number of daily requests left), all methods return headers along with other data.
 - The ``generate_uid`` and ``format_joke`` methods are no longer async - them being async was useless.
 - New Docstrings and comments
+- ``RawClient`` was terminated.
 - A lot more updates
 
 ## Documentation
