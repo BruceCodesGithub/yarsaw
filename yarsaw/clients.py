@@ -1,15 +1,13 @@
-from .httpclient import HTTPClient
+from .httpclient import *
 from .utils import *
 import base64
 import aiohttp
-from .httpclient import HTTPClient
-from .utils import *
 from .data_classes import *
 from typing import Union
 import random
 
 
-class Client:
+class Client(HTTPClient):
     """
     Represents a client object used to interact with the Random Stuff API.
 
@@ -17,67 +15,186 @@ class Client:
     ----------
     authorization : :class:`str`
         Your API Key for the Random Stuff API used to authenticate your requests.
+    key : :class:`str`
+        Your RapidAPI-Key for the Random Stuff API used to authenticate your requests.
+    base : Optional[:class:`str`]
+        The base URL for the Random Stuff API. Defaults to https://randomstuff.p.rapidapi.com/. Only change this if you know what you're doing, this is used for experimental purposes.
     """
 
-    def __init__(self, authorization):
-        self.session = HTTPClient(authorization.strip().replace(" ", ""))
-        self.__key = authorization.strip().replace(" ", "")
-
-    async def get_ai_response(self, message, *, plan="free", **kwargs) -> AIResponse:
+    async def get_ai_response(self, message: str, **kwargs) -> AIResponse:
         """
-        Fetches ai responses from the API.
+        Gets AI responses from the API.
 
         Parameters
         -------------
         message: :class:`str`
-            The message to be sent to the API.
-        plan: Optional[:class:`str`]
-            The plan you bought the API with, if you did.
+            The message you want to get the AI response for.
+        id: Optional[Union[:class:`str`, :class:`int`]]
+            Assign an unique ID for customized response for each user.
+        bot_name: Optional[:class:`str`]
+            Set a name for the AI replying to your message.
+        bot_gender: Optional[:class:`str`]
+            Set a gender for the AI replying to your message.
+        bot_master: Optional[:class:`str`]
+            The creator/master of the AI replying to your message.
+        bot_age: Optional[:class:`str`]
+            The age of the AI replying to your message.
+        bot_company: Optional[:class:`str`]
+            The company that owns the AI replying to your message.
+        bot_location: Optional[:class:`str`]
+            The location of the AI replying to your message.
+        bot_email: Optional[:class:`str`]
+            The email of the AI replying to your message.
+        bot_build: Optional[:class:`str`]
+            The build of the AI replying to your message.
+        bot_birth_year: Optional[:class:`str`]
+            The birth year of the AI replying to your message.
+        bot_birth_date: Optional[:class:`str`]
+            The birth date of the AI replying to your message.
+        bot_birth_place: Optional[:class:`str`]
+            The birth place of the AI replying to your message.
+        bot_favorite_color: Optional[:class:`str`]
+            The favorite color of the AI replying to your message.
+        bot_favorite_book: Optional[:class:`str`]
+            The favorite book of the AI replying to your message.
+        bot_favorite_band: Optional[:class:`str`]
+            The favorite band of the AI replying to your message.
+        bot_favorite_artist: Optional[:class:`str`]
+            The favorite artist of the AI replying to your message.
+        bot_favorite_actress: Optional[:class:`str`]
+            The favorite actress of the AI replying to your message.
+        bot_favorite_actor: Optional[:class:`str`]
+            The favorite actor of the AI replying to your message.
 
         Returns
         -------------
-        :class:`yarsaw.AIResponse`
-            An object containing the response from the API.
-
+        :class:`AIResponse`
+            An object containing the AI response and its details.
         """
 
-        params = {
-            "message": message,
-            "server": kwargs.get("server", "main"),
-            "uid": kwargs.get("uid", 69),
-            "bot_name": kwargs.get("name", "Random Stuff API"),
-            "bot_master": kwargs.get("master", "PGamerX"),
-            "bot_gender": kwargs.get("gender", "Male"),
-            "bot_age": kwargs.get("age", "19"),
-            "bot_company": kwargs.get("company", "PGamerX Studio"),
-            "bot_location": kwargs.get("location", "India"),
-            "bot_email": kwargs.get("email", "admin@pgamerx.com"),
-            "bot_build": kwargs.get("build", "Public"),
-            "bot_birth_year": kwargs.get("birth_year", "2002"),
-            "bot_birth_date": kwargs.get("birth_date", "1st January 2002"),
-            "bot_birth_place": kwargs.get("birth_place", "India"),
-            "bot_favorite_color": kwargs.get("favorite_color", "Blue"),
-            "bot_favorite_book": kwargs.get("favorite_book", "Harry Potter"),
-            "bot_favorite_band": kwargs.get("favorite_band", "Imagine Doggos"),
-            "bot_favorite_artist": kwargs.get("favorite_artist", "Eminem"),
-            "bot_favorite_actress": kwargs.get("favorite_actress", "Emma Watson"),
-            "bot_favorite_actor": kwargs.get("favorite_actor", "Jim Carrey"),
-        }
-        endpoint = f"premium/{plan.lower()}/ai" if plan.lower() != "free" else "ai"
-        if plan.lower() not in PLANS:
-            raise InvalidPlanException(
-                "Invalid Plan. Make sure the plan exists and you specified it in the 'plan' format instead of 'premium/plan'. Eg - 'pro'."
-            )
-        response = await self.session.request(endpoint, params=params)
+        response = await self.request("ai", params={"msg": message, **kwargs})
         return AIResponse(
-            response[0]["response"],
-            response[0]["server"],
-            response[0]["uid"],
+            response.body["AIResponse"],
+            BotDetails(
+                response.body["BotDetails"]["BotName"],
+                response.body["BotDetails"]["BotMaster"],
+                response.body["BotDetails"]["BotAge"],
+                response.body["BotDetails"]["BotLocation"],
+                response.body["BotDetails"]["BotCompany"],
+                response.body["BotDetails"]["BotBirthYear"],
+                response.body["BotDetails"]["BotBirthDate"],
+                response.body["BotDetails"]["BotBirthPlace"],
+            ),
+            response.headers,
         )
+
+    async def get_animal_image(
+        self, animal: str, limit: int, return_type="nested"
+    ) -> dict:
+        """
+        Gets animal images from the API.
+
+        Parameters
+        -------------
+        animal: :class:`str`
+            The animal you want to get images for.
+        limit: :class:`int`
+            The amount of images you want to get.
+        return_type: Optional[:class:`str`]
+            The return type of the images.
+            Allowed Values: "nested" (images=[{"url": "img1"}, {"url", "img2"}]), "list" (images=["img1", "img2"])
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the images and their details.
+        """
+
+        try:
+            if animal.upper() not in ANIMAL_TYPES:
+                raise ValueError(
+                    "Animal not supported. Supported animals are: "
+                    + ", ".join(ANIMAL_TYPES)
+                )
+        except AttributeError:
+            raise ValueError(
+                "Invalid Parameter Type. Make sure you are passing a string."
+            )
+
+        res = await self.request(f"animals/{animal.upper()}", params={"limit": limit})
+        try:
+            if return_type.lower() == "nested":
+                return {"images": res.body, "headers": res.headers}
+            else:
+                images = res.body
+                return_string = []
+                for image in images:
+                    return_string.append(image["url"])
+
+                return {"images": return_string, "headers": res.headers}
+        except AttributeError:
+            images = res.body
+            return_string = []
+            for img in images:
+                return_string.append(img["url"])
+
+            return {"images": return_string, "headers": res.headers}
+
+    async def get_anime_gif(
+        self, gif_type: str, limit: int, return_type: str = "nested"
+    ) -> dict:
+        """
+        Gets an anime gif from the API.
+
+        Parameters
+        -------------
+        gif_type: :class:`str`
+            The type of gif you want to get. Allowed Types: happy, hi, kiss, hug, punch, pat, slap, nervous, run, cry
+        limit: :class:`int`
+            The number of gifs you want to get.
+        return_type: Optional[:class:`str`]
+            Return Type of the GIFs.
+            Allowed Types: nested (gifs=[{"url": "url1"}, {"url": "url2"}]) , list (gif=["url1", "url2"]).
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the gifs and headers.
+        """
+        try:
+            if gif_type.lower() not in ANIME_TYPES:
+                raise ValueError(
+                    "Invalid Anime GIF Type. Supported types are: "
+                    + ", ".join(ANIME_TYPES)
+                )
+        except AttributeError:
+            raise ValueError(
+                "Invalid Parameter Type. Make sure you are passing a string."
+            )
+
+        res = await self.request(f"anime/{gif_type.lower()}", params={"limit": limit})
+        try:
+            if return_type.lower() == "nested":
+                return {"gifs": res.body, "headers": res.headers}
+            else:
+                gifs = res.body
+                return_string = []
+                for gif in gifs:
+                    return_string.append(gif["url"])
+
+                return {"gifs": return_string, "headers": res.headers}
+        except AttributeError:
+            gifs = res.body
+            return_string = []
+            for gif in gifs:
+                return_string.append(gif["url"])
+
+            return {"gifs": return_string, "headers": res.headers}
 
     async def canvas(
         self, method, save_to=None, txt=None, text=None, img1=None, img2=None, img3=None
-    ) -> bytes:
+    ) -> Union[Response, int]:
+
         """
         Edit Images with the API.
 
@@ -113,149 +230,36 @@ class Client:
 
         Returns
         -------------
-        Union[:class:`bytes`, :class:`io.BufferedImage`]
-            If save_to is not specified, the edited image will be returned as bytes.
-            If save_to is specified, the edited image will be saved to the specified path, and will return the image.
+        Union[:class:`Response`, :class:`int`]
+            If save_to is not specified, the edited image will be returned as a Response object containing the bytes and the headers.
+            If save_to is specified, the edited image will be saved to the specified path, and will 200.
 
         """
 
-        if method.lower() not in CANVAS_METHODS:
-            supported_methods = ", ".join(CANVAS_METHODS)
-            raise ValueError(
-                f"That method does not exist! Supported Methods: {supported_methods}"
-            )
+        # if method.lower() not in CANVAS_METHODS:
+        #     supported_methods = ", ".join(CANVAS_METHODS)
+        #     raise ValueError(
+        #         f"That method does not exist! Supported Methods: {supported_methods}"
+        #     )
 
         params = {
-            "method": method,
             "txt": txt or text or "",
             "img1": img1 or "",
             "img2": img2 or "",
             "img3": img3 or "",
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                "https://api.pgamerx.com/v5/canvas",
-                headers={"Authorization": self.__key},
-                params=params,
-            ) as response:
-                try:
-                    base = await response.json()
-                except aiohttp.client_exceptions.ContentTypeError:
-                    return await response.text()
-                base = base[0]["base64"]
+        response = await self.request(f"canvas/{method}", params=params)
+        base = response.body["base64"]
 
         if save_to:
             file = open(save_to, "wb")
             file.write(base64.b64decode((base)))
             file.close()
 
-            return file
+            return 200
 
-        return base64.b64decode((base))
-
-    async def get_covid_stats(
-        self, country=None
-    ) -> Union[GlobalCovidStats, CountryCovidStats]:
-        """
-        Get the global or country-specific COVID-19 statistics.
-
-        Parameters
-        ----------
-        country : Optional[:class:`str`]
-            The country you want to get the statistics for.
-
-        Returns
-        -------
-        Union[:class:`GlobalCovidStats`, :class:`CountryCovidStats`]
-            Objects containing the statistics.
-        """
-        if country is None:
-            params = None
-        else:
-            params = {"country": country}
-        response = await self.session.request("covid", params=params)
-        if country is None:
-            return GlobalCovidStats(
-                int(response["totalCases"].replace(",", "")),
-                int(response["totalDeaths"].replace(",", "")),
-                int(response["totalRecovered"].replace(",", "")),
-                int(response["activeCases"].replace(",", "")),
-                int(response["closedCases"].replace(",", "")),
-                Condition(
-                    int(response["condition"]["mild"].replace(",", "")),
-                    int(response["condition"]["critical"].replace(",", "")),
-                ),
-            )
-        else:
-            if response["country"]["name"] == "":
-                raise ValueError("Country not found")
-            return CountryCovidStats(
-                Country(
-                    response["country"]["name"],
-                    response["country"]["flagImg"],
-                ),
-                Cases(
-                    int(response["cases"]["total"].replace(",", "")),
-                    int(response["cases"]["recovered"].replace(",", "")),
-                    int(response["cases"]["deaths"].replace(",", "")),
-                    Closed(
-                        int(response["closedCases"]["total"].replace(",", "")),
-                        response["closedCases"]["percentage"],
-                    ),
-                ),
-            )
-
-    async def get_fact(self, *, plan, fact_type="all"):
-        """
-        Fetches facts from the API.
-
-        Parameters
-        -------------
-        plan: :class:`str`
-            The plan you bought to use the API.
-
-        fact_type: Optional[:class:`str`]
-            The type of fact you want to fetch.
-            Allowed Values: "all", "dog", "cat", "space", "covid", "computer", "food", "emoji"
-        """
-        if plan.lower() not in PLANS:
-            raise InvalidPlanException(
-                "Invalid Plan. Make sure the plan exists and you specified it in the 'plan' format instead of 'premium/plan'. Eg - 'pro'."
-            )
-        if fact_type.lower() not in FACT_TYPES:
-            raise ValueError(
-                "Invalid fact type! Allowed types: all, dog, cat, space, covid, computer, food, emoji"
-            )
-        return await self.session.request(
-            f"premium/{plan.lower()}/facts", params={"type": fact_type}
-        )
-
-    async def get_image(self, img_type=None) -> str:
-        """
-        Fetches images from the API.
-
-        Parameters
-        -------------
-        img_type: Optional[:class:`str`]
-            The type of image you want to fetch. If not specified, it will fetch a random image.
-            Allowed Values: "aww", "duck", "dog", "cat", "memes", "dankmemes", "holup", "art", "harrypottermemes", "facepalm"
-
-        Returns
-        -------------
-        :class:`str`
-            The URL of the image.
-        """
-        if not img_type:
-            img_type = random.choice(IMAGE_TYPES)
-        if img_type.lower() not in IMAGE_TYPES:
-            supported_types = ", ".join(IMAGE_TYPES)
-            raise ValueError(f"Invalid Type. Supported types are: {supported_types}")
-        else:
-            if not img_type:
-                img_type = random.choice(IMAGE_TYPES)
-            response = await self.session.request("image", params={"type": img_type})
-            return response[0]
+        return Response(base64.b64decode((base)), response.headers)
 
     async def get_joke(self, joke_type="any", blacklist: list = []) -> Joke:
         """
@@ -265,7 +269,7 @@ class Client:
         -------------
         joke_type: Optional[:class:`str`]
             The type of joke you want to fetch.
-            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "programming", "misc"
+            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "Programming", "misc"
 
         blacklist: Optional[:class:`list`]
             A list of types jokes you want to blacklist.
@@ -277,9 +281,16 @@ class Client:
             An object containing the joke and its details.
         """
         joke_type = joke_type.lower()
-        if joke_type not in JOKE_TYPES:
+        if joke_type.lower() not in JOKE_TYPES:
             supported_types = ", ".join(JOKE_TYPES)
             raise ValueError(f"Invalid Type. Supported types are: {supported_types}")
+
+        # API Bug: The Joke Type Query must be titlecased if the type of joke is "programming"
+        if joke_type.lower() == "programming":
+            joke_type = "Programming"
+        else:
+            joke_type = joke_type.lower()
+
         blist = ""
         if blacklist:
             if "all" in blacklist:
@@ -287,32 +298,34 @@ class Client:
             else:
                 blist = "&".join(blacklist)
 
-        response = await self.session.request(
+        response = await self.request(
             f"joke?blacklist={blist}", params={"type": joke_type}
         )
 
-        if response["type"] == "twopart":
+        if response.body["type"] == "twopart":
             return Joke(
-                response["error"],
-                response["category"],
-                response["type"],
-                response["flags"],
-                response["id"],
-                response["safe"],
-                response["lang"],
-                setup=response["setup"],
-                delivery=response["delivery"],
+                response.body["error"],
+                response.body["category"],
+                response.body["type"],
+                response.body["flags"],
+                response.body["id"],
+                response.body["safe"],
+                response.body["lang"],
+                response.headers,
+                setup=response.body["setup"],
+                delivery=response.body["delivery"],
             )
         else:
             return Joke(
-                response["error"],
-                response["category"],
-                response["type"],
-                response["flags"],
-                response["id"],
-                response["safe"],
-                response["lang"],
-                joke=response["joke"],
+                response.body["error"],
+                response.body["category"],
+                response.body["type"],
+                response.body["flags"],
+                response.body["id"],
+                response.body["safe"],
+                response.body["lang"],
+                response.headers,
+                joke=response.body["joke"],
             )
 
     async def get_safe_joke(self, joke_type="any") -> Joke:
@@ -323,7 +336,7 @@ class Client:
         -------------
         joke_type: Optional[:class:`str`]
             The type of joke you want to fetch.
-            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "programming", "misc"
+            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "Programming", "misc"
 
         Returns
         -------------
@@ -336,65 +349,199 @@ class Client:
             joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
         return joke
 
-    async def get_waifu(self, waifu_type, *, plan):
+    async def fetch_subreddit_post(
+        self, subreddit: str, search_type: str = "hot"
+    ) -> dict:
         """
-        Fetches waifus from the API.
+        Fetches a random post from a subreddit.
 
         Parameters
         -------------
-        waifu_type: :class:`str`
-            The type of waifu you want to fetch.
-            Allowed Values: "waifu", "neko", "shinobu", "megumin", "bully", "cuddle"
+        subreddit: :class:`str`
+            The subreddit to fetch a post from.
 
-        plan: :class:`str`
-            The plan you bought to use the API.
-        """
-        if not plan.lower() in PLANS:
-            raise InvalidPlanException(
-                "Invalid Plan. Make sure the plan exists and you specified it in the 'plan' format instead of 'premium/plan'. Eg - 'pro'."
-            )
-        if not waifu_type.lower() in WAIFU_TYPES:
-            supported_types = ", ".join(WAIFU_TYPES)
-            raise ValueError(
-                f"Invalid Waifu Type. Supported types are: {supported_types}"
-            )
-        return await self.session.request(
-            f"premium/{plan.lower()}/waifu", params={"type": waifu_type.lower()}
-        )
-
-    async def get_weather(self, city) -> list:
-        """
-        Fetches weather data from the API.
-
-        Parameters
-        -------------
-        city: :class:`str`
-            The city you want to fetch weather for.
+        search_type: Optional[:class:`str`]
+            This is how it sorts the posts. Allows: "hot", "new", "rising", "top"
 
         Returns
         -------------
-        :class:`list`
-            A list containing the weather data.
+        :class:`dict`
+            A dictionary containing the post's details and the request's headers.
         """
-        return await self.session.request("weather", params={"city": city})
+        if search_type.lower() not in SEARCH_TYPES:
+            raise ValueError(
+                "Invalid Search Type. Supported types are: " + ", ".join(SEARCH_TYPES)
+            )
+
+        res = await self.request(
+            f"reddit/FetchSubredditPost",
+            params={"subreddit": subreddit, "searchType": search_type},
+        )
+        res.body.update({"headers": res.headers})
+        return res.body
+
+    async def fetch_post(self, subreddit: str, search_type: str = "hot") -> dict:
+        """
+        Fetches a random post from a subreddit. This is an alias of :meth:`fetch_subreddit_post`.
+
+        Parameters
+        -------------
+        subreddit: :class:`str`
+            The subreddit to fetch a post from.
+
+        search_type: Optional[:class:`str`]
+            This is how it sorts the posts. Allows: "hot", "new", "rising", "top"
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the post's details and the request's headers.
+        """
+        if search_type.lower() not in SEARCH_TYPES:
+            raise ValueError(
+                "Invalid Search Type. Supported types are: " + ", ".join(SEARCH_TYPES)
+            )
+
+        res = await self.request(
+            f"reddit/FetchPost",
+            params={"subreddit": subreddit, "searchType": search_type},
+        )
+        res.body.update({"headers": res.headers})
+        return res.body
+
+    async def random_meme(self, search_type: str = "hot") -> dict:
+        """
+        Gets a random meme from reddit.
+
+        Parameters
+        -------------
+        search_type: Optional[:class:`str`]
+            This is how it sorts the posts. Allows: "hot", "new", "rising", "top"
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the post's details and the request's headers.
+        """
+        if search_type.lower() not in SEARCH_TYPES:
+            raise ValueError(
+                "Invalid Search Type. Supported types are: " + ", ".join(SEARCH_TYPES)
+            )
+
+        res = await self.request(
+            f"reddit/RandomMeme", params={"searchType": search_type}
+        )
+        res.body.update({"headers": res.headers})
+        return res.body
+
+    async def fetch_random_post(self, search_type: str = "hot") -> dict:
+        """
+        Fetches a random post from reddit.
+
+        Parameters
+        -------------
+        search_type: Optional[:class:`str`]
+            This is how it sorts the posts. Allows: "hot", "new", "rising", "top"
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the post's details and the request's headers.
+        """
+        if search_type.lower() not in SEARCH_TYPES:
+            raise ValueError(
+                "Invalid Search Type. Supported types are: " + ", ".join(SEARCH_TYPES)
+            )
+
+        res = await self.request(
+            f"reddit/FetchRandomPost", params={"searchType": search_type}
+        )
+        res.body.update({"headers": res.headers})
+        return res.body
+
+    async def fetch_post_by_id(self, post_id: str, search_type: str = "hot") -> dict:
+        """
+        Fetch a reddit post by its ID.
+
+        Parameters
+        -------------
+        post_id: :class:`str`
+            The ID of the post to fetch.
+
+        search_type: Optional[:class:`str`]
+            This is how it sorts the posts. Allows: "hot", "new", "rising", "top"
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the post's details and the request's headers.
+        """
+        if search_type.lower() not in SEARCH_TYPES:
+            raise ValueError(
+                "Invalid Search Type. Supported types are: " + ", ".join(SEARCH_TYPES)
+            )
+
+        res = await self.request(
+            f"reddit/FetchPostById", params={"id": post_id, "searchType": search_type}
+        )
+        res.body.update({"headers": res.headers})
+        return res.body
+
+    ## PREMIUM ENDPOINTS
+
+    async def get_fact(self, fact_type="all") -> dict:
+        """
+        Fetches a random fact from the API. PREMIUM ENDPOINT.
+
+        Parameters
+        -------------
+        fact_type: Optional[:class:`str`]
+            The type of fact you want to fetch.
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the fact's details and the request's headers.
+        """
+
+        if fact_type.lower() not in FACT_TYPES:
+            raise ValueError(
+                "Invalid Fact Type. Supported types are: " + ", ".join(FACT_TYPES)
+            )
+        res = await self.request(f"facts/{fact_type.lower()}")
+        res.body.update({"headers": res.headers})
+        return res.body
+
+    async def get_waifu(self, image_type, waifu_type=None) -> dict:
+        """
+        Fetches SFW or NSFW waifu images from the API. PREMIUM ENDPOINT.
+
+        Parameters
+        -------------
+        image_type: :class:`str`
+            Whether you want SFW or NSFW images.
+
+        waifu_type: Optional[:class:`str`]
+            The type of waifu you want to fetch. Visit https://api-docs.pgamerx.com/Documentation/premium/waifu/#available-waifu_types for all available waifu types.
+
+        Returns
+        -------------
+        :class:`dict`
+            A dictionary containing the waifu's details and the request's headers.
+        """
+        if waifu_type is None:
+            waifu_type = ""
+
+        res = await self.request(
+            f"waifu/{image_type}", params={"waifu_type": waifu_type}
+        )
+        res.body.update({"headers": res.headers})
+        return res.body
 
     async def disconnect(self):
-        """
-        Disconnects the client from the API.
-        """
-        await self.session.close()
+        """Closes the Client Session"""
+        await self._session.close()
 
-    async def restart(self):
-        """
-        Restarts the client's connection with the API.
-        """
-        self.session = HTTPClient(self.__key)
-
-    async def connect(self):
-        """
-        Connects the client to the API, incase it's not already connected.
-        """
-        if self.session:
-            pass
-        else:
-            self.session = HTTPClient(self.__key)
+    async def reconnect(self):
+        """Restarts the Client Connection"""
+        self._session = aiohttp.ClientSession()

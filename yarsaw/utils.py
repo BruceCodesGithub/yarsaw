@@ -6,7 +6,7 @@ from .data_classes import *
 
 
 class Utils:
-    async def format_joke(
+    def format_joke(
         self, joke: Union[dict, Joke], format_as="{setup}\n{delivery}"
     ) -> str:
         """
@@ -27,10 +27,33 @@ class Utils:
         :class:`str`
             The formatted joke.
         """
-        if not "{setup}" in format_as or not "{delivery}" in format_as:
+        if not "{setup}" in format_as:
             raise ValueError(
-                "'format_as' must contain the '{setup}' and '{devlivery}' values"
+                "'format_as' must contain the '{setup}' and '{devlivery}' or '{punchline}' values"
             )
+        elif not "{delivery}" in format_as:
+            if not "{punchline}" in format_as:
+                raise ValueError(
+                    "'format_as' must contain the '{setup}' and '{devlivery}' or '{punchline}' values"
+                )
+            else:
+                if isinstance(joke, dict):
+                    if joke.get("type") == "twopart":
+                        return format_as.format(
+                            setup=joke.get("setup"), punchline=joke.get("delivery")
+                        )
+                    else:
+                        return joke.get("joke")
+                elif isinstance(joke, Joke):
+                    if joke.type == "twopart":
+                        return format_as.format(
+                            setup=joke.setup, punchline=joke.delivery
+                        )
+                    else:
+                        return joke.joke
+                else:
+                    raise TypeError("'joke' must be a dict or Joke object")
+
         if isinstance(joke, dict):
             if joke.get("type") == "twopart":
                 return format_as.format(
@@ -46,7 +69,7 @@ class Utils:
         else:
             raise TypeError("'joke' must be a dict or Joke object")
 
-    async def generate_uid(self, chars: int = 8, special_chars=False, letters=True):
+    def generate_uid(self, chars: int = 8, special_chars=False, letters=True):
         """
         Support function for get_ai_response. Generates a random string of characters to be used as a unique identifier for a user.
 
@@ -80,15 +103,6 @@ class Utils:
         return uid
 
 
-PLANS = {
-    "free": "",
-    "pro": "premium/pro",
-    "ultra": "premium/ultra",
-    "biz": "premium/biz",
-    "mega": "premium/mega",
-}
-
-
 async def check_res(res):
     if res.status == 200:
         pass
@@ -98,6 +112,8 @@ async def check_res(res):
         raise InvalidAPIKeyException(await res.text())
     elif res.status == 429:
         raise RateLimited(await res.text())
+    else:
+        raise RuntimeError(await res.text())
 
 
 CANVAS_METHODS = [
@@ -146,6 +162,26 @@ IMAGE_TYPES = (
     "facepalm",
 )
 
-WAIFU_TYPES = ("waifu", "neko", "shinobu", "megumin", "bully", "cuddle")
-
 FACT_TYPES = ("all", "dog", "cat", "space", "covid", "computer", "food", "emoji")
+
+ANIME_TYPES = (
+    "happy",
+    "hi",
+    "kiss",
+    "hug",
+    "punch",
+    "pat",
+    "slap",
+    "nervous",
+    "run",
+    "cry",
+)
+
+ANIMAL_TYPES = (
+    "DOG",
+    "CAT",
+    "WOLF",
+    "FOX",
+)
+
+SEARCH_TYPES = ("hot", "top", "new", "rising")

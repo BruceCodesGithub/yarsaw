@@ -2,122 +2,64 @@ Welcome to YARSAW!
 ===================================
 YARSAW is an open source, free and easy to use API Wrapper for the `Random Stuff API`_.
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   
-   
-
 
 ===================================
 Features
 ===================================
 * Wraps all of the `Random Stuff API <https://api-info.pgamerx.com>`_
-* Asynchronous
+* Async-ready
 * Easy to use
 * Saves you a lot of time
 
 ===================================
 First Steps
 ===================================
-1. Install the package
+#. Install the package
 
    .. code-block:: bash
 
       python3 -m pip install yarsaw
 
-2. Register for an account at the `Random Stuff API resgistration page <https://api-info.pgamerx.com/register>`_.
+#. Register to get an API Key at the `Random Stuff API resgistration page <https://api-docs.pgamerx.com/Getting%20Started/register/>`_. This is used for authentication.
 
-3. Import the module nad create an instance of `Client <client>`
+#. Register at `RapidAPI <https://rapidapi.com/pgamerxdev/api/random-stuff-api>`_ for a RapidAPI Key and Account, and subscribe to the Random Stuff API. This is used to make requests to the Random Stuff API and keep track of them. You can go to `The RapidAPI Developer Dashboard <https://rapidapi.com/developer/apps>`_ after logging in, select an application, head over to security, and copy its key. This is your RapidAPI Key.
+
+#. Import the module and create an instance of `Client <client>`
 
    .. code-block:: python
 
       import yarsaw
 
-      client = yarsaw.Client("your_api_key")
+      client = yarsaw.Client("your_rsa_api_key", "your_rapidapi_key")
 
-4. Use the client to get a random joke (to get familiar with the module)
+#. Use the client to get a random joke (to get familiar with the module)
 
    .. code-block:: python
 
       import yarsaw
       import asyncio # builtin, used for asynchronous calls
 
-      client = yarsaw.Client("your_api_key")
+      client = yarsaw.Client("your_api_key", "your_rapidapi_key")
 
       async def joke():
          joke = await client.get_joke() # get the joke in form of a dict
-         formatted_joke = await yarsaw.Utils().format_joke(joke) # format the joke (optional)
+         formatted_joke = yarsaw.Utils().format_joke(joke) # format the joke (optional)
          print(formatted_joke) # print the joke
 
       asyncio.get_event_loop().run_until_complete(joke()) # run the joke() function
 
-5. Start reading the documentation!
+Now just start reading the documentation!
 
-===================================
-Clients
-===================================
+.. note::
+   The :doc:`client` page contains all of the methods you can use to interact with the Random Stuff API, so we recommend reading that first.
 
------------------------------------
-Client
------------------------------------
+.. toctree::
+   :maxdepth: 1
+   :caption: Pages:
 
-.. autoclass:: yarsaw.Client
-   :members:
+   client
+   utils
+   faq
+   changelog
 
-
-===================================
-Utils
-===================================
-
-Support functions for the clients.
-
-.. autoclass:: yarsaw.Utils
-   :members:
-   :show-inheritance:
-
-
-===================================
-Data Classes
-===================================
-
-.. autoclass :: yarsaw.AIResponse
-   :members:
-
-
-.. autoclass :: yarsaw.GlobalCovidStats
-   :members:
-
-
-.. autoclass :: yarsaw.CountryCovidStats
-   :members:
-
-
-.. autoclass :: yarsaw.Joke
-   :members:
-
-
-.. autoclass :: yarsaw.Condition
-   :members:
-
-.. autoclass :: yarsaw.Country
-   :members:
-
-.. autoclass :: yarsaw.Closed
-   :members:
-
-.. autoclass :: yarsaw.Cases
-   :members:
-
-===================================
-Exception Classes
-===================================
-
-.. autoclass :: yarsaw.InvalidPlanException
-   :members:
-
-.. autoclass :: yarsaw.InvalidAPIKeyException
-   :members:
-
-.. autoclass :: yarsaw.RateLimited
-   :members:
+Documentation Last Updated on |today|

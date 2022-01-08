@@ -36,11 +36,13 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
+    "sphinx_copybutton"
 ]
 autodoc_member_order = "bysource"
 autodoc_typehints = "none"
 autodoc_inherit_docstrings = False
 
+html_show_sourcelink = False
 
 # Links used for cross-referencing stuff in other documentation
 intersphinx_mapping = {
@@ -59,6 +61,8 @@ version = "1.2"
 
 if version:
     release = version
+
+content_copy = False
 
 # This assumes a tag is available for final releases
 
@@ -106,7 +110,7 @@ html_js_files = ["copy.js", "settings.js", "sidebar.js", "custom.js"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "basic"
+html_theme = "sphinx_rtd_theme"
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
