@@ -1,6 +1,6 @@
-#####################
+*************************
 Welcome to YARSAW!
-#####################
+*************************
 
 YARSAW is an open source, free and easy to use API Wrapper for the `Random Stuff API`_.
 
