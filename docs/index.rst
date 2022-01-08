@@ -1,22 +1,19 @@
-*************************
 Welcome to YARSAW!
-*************************
+======================
 
 YARSAW is an open source, free and easy to use API Wrapper for the `Random Stuff API`_.
 
 
-===================================
 Features
-===================================
+-------------------------
 
 * Wraps all of the `Random Stuff API <https://api-info.pgamerx.com>`_
 * Async-ready
 * Easy to use
 * Saves you a lot of time
 
-===================================
 First Steps
-===================================
+-------------------------
 
 1. Install the package
 
