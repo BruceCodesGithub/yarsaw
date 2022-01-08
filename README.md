@@ -14,7 +14,7 @@
 <p align="center">YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the Random Stuff API. This module makes it simpler for you to interact with the API and is easy to implement into your application.</p>
 
 
-**Make sure to get an API Key from [here](https://api-info.pgamerx.com/register.html) before trying to access this module.**
+--Make sure to get an API Key from [here](https://api-info.pgamerx.com/register.html) before trying to access this module.--
 
 ## Features
 
@@ -22,7 +22,6 @@
 - Object oriented design (Raw outputs are also available)
 - Tons of thigs you can do
     - Get AI Responses (useful for making chatbots)
-    - Get Covid/Weather stats
     - Edit images into memes
     - Gets facts, jokes, images (including aww, meme, etc.)
 - Simple and easy
@@ -34,10 +33,10 @@
 ```py
 import yarsaw
 import asyncio
-client = yarsaw.Client("your_api_key")
+client = yarsaw.Client("RSA Key", "RapidAPI Key")
 async def joke():
    joke = await client.get_joke() # get the joke
-   formatted_joke = await yarsaw.Utils().format_joke(joke) # format the joke (optional)
+   formatted_joke = yarsaw.Utils().format_joke(joke) # format the joke (optional)
    print(formatted_joke) # print the joke
 asyncio.get_event_loop().run_until_complete(joke()) # run the joke() function
 ```
@@ -50,42 +49,17 @@ python3 -m pip install yarsaw
 
 ## Changes
 
-### `1.3`
-(stable)
+(2.0)
 
-- The `Client` class now returns objects which are easier to work with.
-- `RawClient` class can be used to return the raw JSON response from the API.
+This is a major change. The Random Stuff API was completely rewritten, and so was this module. Aside from new functions,
 
-### `1.2`
-(stable)
-
-- Updated Docs - now view it [here](https://yarsaw.namantech.me/)
-    - Uses ReadTheDocs.
-    - Uses Sphinx instead of MKDocs
-    - Updated the docs to be more readable.
-    - Is updated automatically with docstrings.
-    - Covers all the methods. Fixed minor mistakes.
-- Created a `Utils` class, added `format_joke()` and `generate_uid()` to the `Utils`.
-- Added docstrings to all the methods.
-- Better code style.
-- Updated many other things.
-
-### `1.0`
-
-(stable)
-- Updated docs
-- Renamed functions in `Client()`
-    - `ai` -> `get_ai_response()`
-    - `joke` -> `get_joke()`
-    - `fact` -> `get_fact()`
-    - `waifu` -> `get_waifu()`
-    - `image` -> `get_image()`
-    - `covid` -> `get_covid_stats()`
-    - `weather` -> `get_weather()`
-
-- Added new function `generate_uid()`
-- Many more changes
-
+- Docs were updated
+    - Uses the ReadTheDocs theme for documentation
+    - The documentation is no longer a single page, but a collection of pages.
+- Since the API now has more use of headers than ever (it returns the number of daily requests left), all methods return headers along with other data.
+- The ``generate_uid`` and ``format_joke`` methods are no longer async - them being async was useless.
+- New Docstrings and comments
+- A lot more updates
 
 ## Documentation
 
