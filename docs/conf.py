@@ -60,7 +60,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 
-version = "1.2"
+version = "2.0"
 
 if version:
     release = version
