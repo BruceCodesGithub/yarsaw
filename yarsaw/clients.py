@@ -17,8 +17,6 @@ class Client(HTTPClient):
         Your API Key for the Random Stuff API used to authenticate your requests.
     key : :class:`str`
         Your RapidAPI-Key for the Random Stuff API used to authenticate your requests.
-    base : Optional[:class:`str`]
-        The base URL for the Random Stuff API. Defaults to https://randomstuff.p.rapidapi.com/. Only change this if you know what you're doing, this is used for experimental purposes.
     """
 
     async def get_ai_response(self, message: str, **kwargs) -> AIResponse:
@@ -485,6 +483,25 @@ class Client(HTTPClient):
             f"reddit/FetchPostById", params={"id": post_id, "searchType": search_type}
         )
         res.body.update({"headers": res.headers})
+        return res.body
+
+    # NOT TESTED - 401 Unauthorized
+
+    async def get_weather(self, city: str) -> list:
+        """
+        Gets the weather for a city.
+
+        Parameters
+        -------------
+        city: :class:`str`
+            The city to get the weather for.
+
+        Returns
+        -------------
+        :class:`list`
+            A list containing the weather details.
+        """
+        res = await self.request(f"weather", params={"city": city})
         return res.body
 
     ## PREMIUM ENDPOINTS

@@ -14,7 +14,7 @@
 <p align="center">YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the Random Stuff API. This module makes it simpler for you to interact with the API and is easy to implement into your application.</p>
 
 
---Make sure to get Random Stuff API Key from [here](https://api-docs.pgamerx.com/Getting%20Started/register/) and RapidAPI Key after registering and subscribing to the API [here](https://rapidapi.com/pgamerxdev/api/).--
+--Make sure to get Random Stuff API Key from [here](https://api-docs.pgamerx.com/Getting%20Started/register/) and a RapidAPI Application Key after registering and subscribing to the API [here](https://rapidapi.com/pgamerxdev/api/).--
 
 
 ## Features
@@ -51,7 +51,13 @@ python3 -m pip install yarsaw
 
 ## Changes
 
-(2.0)
+### 2.0.1
+
+- Added support for `/weather`
+- Parameter `base` was removed from class `Client`
+- Error handling for incorrect API keys was improved
+
+### 2.0
 
 This is a major change. The Random Stuff API was completely rewritten, and so was this module. Aside from new functions,
 

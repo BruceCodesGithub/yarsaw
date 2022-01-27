@@ -1,6 +1,15 @@
 Changelog
 =========================
 
+
+----------
+``2.0.1``
+----------
+
+* Added support for ``/weather``
+* Parameter ``base`` was removed from class ``Client``
+* Error handling for incorrect API keys was improved
+
 ----------
 ``2.0``
 ----------

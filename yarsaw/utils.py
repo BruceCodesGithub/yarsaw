@@ -69,7 +69,7 @@ class Utils:
         else:
             raise TypeError("'joke' must be a dict or Joke object")
 
-    def generate_uid(self, chars: int = 8, special_chars=False, letters=True):
+    def generate_uid(self, chars: int = 8, letters=True, special_chars=False):
         """
         Support function for get_ai_response. Generates a random string of characters to be used as a unique identifier for a user.
 
@@ -79,11 +79,11 @@ class Utils:
         chars: Optional[:class:`int`]
             The number of characters to generate. Defaults to 8.
 
-        special_chars: Optional[:class:`bool`]
-            Whether or not to include special characters. Defaults to False.
-
         letters: Optional[:class:`bool`]
             Whether or not to include letters. Defaults to True.
+
+        special_chars: Optional[:class:`bool`]
+            Whether or not to include special characters. Defaults to False.
 
         Returns
         -------
@@ -109,7 +109,12 @@ async def check_res(res):
     elif res.status == 401:
         raise InvalidAPIKeyException(await res.text())
     elif res.status == 403:
-        raise InvalidAPIKeyException(await res.text())
+        try:
+            json_response = await res.json()
+        except:
+            raise InvalidAPIKeyException(await res.text())
+        else:
+            raise InvalidAPIKeyException(json_response["message"])
     elif res.status == 429:
         raise RateLimited(await res.text())
     else:

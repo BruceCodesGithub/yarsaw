@@ -10,16 +10,18 @@ class Response:
 
 
 class HTTPClient:
-    def __init__(
-        self,
-        authorization: str,
-        key,
-        *,
-        base: str = "https://random-stuff-api.p.rapidapi.com",
-    ):
-        self.__auth = authorization
-        self.__key = key
-        self._base = base
+    def __init__(self, authorization: str, key):
+        if not isinstance(authorization, str):
+            raise TypeError(
+                "Expected authorization to be str, got {}".format(type(authorization))
+            )
+        else:
+            self.__auth = authorization
+        if not isinstance(key, str):
+            raise TypeError("Expected key to be str, got {}".format(type(key)))
+        else:
+            self.__key = key
+        self._base = "https://random-stuff-api.p.rapidapi.com"
         self._session = aiohttp.ClientSession()
 
     async def request(self, endpoint, *, params=None):
@@ -35,7 +37,6 @@ class HTTPClient:
             },
             params=params,
         ) as response:
-
             await check_res(response)
             try:
                 return Response(await response.json(), response.headers)
