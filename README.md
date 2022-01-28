@@ -1,12 +1,10 @@
 <h2 align="center">YARSAW</h2>
 <div align="center">
-<img src="https://img.shields.io/pypi/v/yarsaw">  
-
-<img alt="PyPI - License" src="https://img.shields.io/pypi/l/yarsaw">
-
-<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/yarsaw?color=blue">
-
-<img src='https://readthedocs.org/projects/yarsaw/badge/?version=latest' alt='Documentation Status' />
+    
+<img alt="PyPi - Version" src="https://img.shields.io/pypi/v/yarsaw?color=blue&style=flat-square">  
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dw/yarsaw?color=blue&style=flat-square">
+<img alt="PyPI - License" src="https://img.shields.io/pypi/l/yarsaw?color=blue&style=flat-square">
+<img alt="Documentation Status" src='https://readthedocs.org/projects/yarsaw/badge/?version=main'/>
 
 </div>
 <br>
@@ -14,21 +12,32 @@
 <p align="center">YARSAW (Yet Another Random Stuff API Wrapper) is an Async, Object Oriented and Modern Python API Wrapper for the Random Stuff API. This module makes it simpler for you to interact with the API and is easy to implement into your application.</p>
 
 
---Make sure to get Random Stuff API Key from [here](https://api-docs.pgamerx.com/Getting%20Started/register/) and a RapidAPI Application Key after registering and subscribing to the API [here](https://rapidapi.com/pgamerxdev/api/).--
+Make sure to get Random Stuff API Key from [here](https://api-docs.pgamerx.com/Getting%20Started/register/) and a RapidAPI Application Key after registering and subscribing to the API [here](https://rapidapi.com/pgamerxdev/api/).
 
 
 ## Features
 
-- Async and fast
-- Object oriented design (Raw outputs are also available)
-- Tons of thigs you can do
-    - Get AI Responses (useful for making chatbots)
-    - Edit images into memes
-    - Gets facts, jokes, images (including aww, meme, etc.)
-    - Gets reddit posts - random memes, random posts from subreddits, etc.
-- Simple and easy
-- No need to learn about the Random Stuff API. Just get started with your project
-- Saves time
+- Loads of things you can do
+    1. Get AI Responses (useful for creating chatbots)
+    1. Get Animal Images (Dogs, Cats, Wolfs and Foxes)
+    1. Get Anime GIFs (`happy`, `hi`, `hug`, `punch`, `pat`, and more)
+    1. Create memes with pre-built templates
+    1. Get jokes (`any`, `dark`, `pun`, `spooky`, `christmas`, `programming`, `misc`)
+    1. Fetch Reddit posts and memes
+    1. Get weather data for any city
+    1. Get fun facts (`all`, `emoji`, `dog`, `cat`, `food`, `space`, `covid`, `computer`)
+    1. Get waifu images (over 32 different types!)
+- Fast and asynchronous
+- Object oriented design
+- Easy to use
+- Well documented
+- Wraps the full API
+- Kept up-to-date
+- Utility functions to help you with your requests
+- Saves your time
+    - No need to learn about the API itself and its complex design
+    - No need to enter your API Keys multiple times
+    - No need to handle the complex and unhelpful errors given by requests/aiohttp or RapidAPI. Get human-readable and helpful errors instead. Common errors are prevented before runtime.
 
 ## Examples
 
@@ -49,15 +58,23 @@ asyncio.get_event_loop().run_until_complete(joke()) # run the joke() function
 python3 -m pip install yarsaw
 ```
 
+## Links
+
+- [**Documentation**](https://yarsaw.namantech.me/)
+- [**Random Stuff API**](https://rapidapi.com/pgamerxdev/api/random-stuff-api/)
+- [**Random Stuff API Discord**](https://discord.gg/GpYTdHaNhe)
+
 ## Changes
 
-### 2.0.1
+[View Full Changelog](https://yarsaw.namantech.me/changelog.html)
+
+#### 2.0.1
 
 - Added support for `/weather`
 - Parameter `base` was removed from class `Client`
 - Error handling for incorrect API keys was improved
 
-### 2.0
+#### 2.0
 
 This is a major change. The Random Stuff API was completely rewritten, and so was this module. Aside from new functions,
 
@@ -70,6 +87,3 @@ This is a major change. The Random Stuff API was completely rewritten, and so wa
 - ``RawClient`` was terminated.
 - A lot more updates
 
-## Documentation
-
-[Read the Documention here](https://yarsaw.namantech.me/)
