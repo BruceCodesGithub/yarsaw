@@ -5,12 +5,11 @@ from typing import Union
 from .data_classes import *
 
 
-class Utils:
-    def format_joke(
-        self, joke: Union[dict, Joke], format_as="{setup}\n{delivery}"
+def format_joke(
+        joke: Union[dict, Joke], format_as="{setup}\n{delivery}"
     ) -> str:
         """
-        Support function for get_joke. Auto-format a joke. If its a single type of joke, it returns the joke itself. If its a two-part joke, it returns the setup and delivery, separated by a newline or a character you choose.
+        Support function for :func:`Client.get_joke`. Auto-format a joke. If its a single type of joke, it returns the joke itself. If its a two-part joke, it returns the setup and delivery, separated by a newline or a character you choose.
 
         Parameters
         ----------
@@ -69,9 +68,9 @@ class Utils:
         else:
             raise TypeError("'joke' must be a dict or Joke object")
 
-    def generate_uid(self, chars: int = 8, letters=True, special_chars=False):
+def generate_uid(chars: int = 8, letters=True, special_chars=False):
         """
-        Support function for get_ai_response. Generates a random string of characters to be used as a unique identifier for a user.
+        Support function for :func:`Client.get_ai_response`. Generates a random string of characters to be used as a unique identifier for a user.
 
         Parameters
         ----------
@@ -107,16 +106,25 @@ async def check_res(res):
     if res.status == 200:
         pass
     elif res.status == 401:
-        raise InvalidAPIKeyException(await res.text())
+        raise InvalidAPIKey(await res.text())
     elif res.status == 403:
         try:
             json_response = await res.json()
         except:
-            raise InvalidAPIKeyException(await res.text())
+            raise InvalidAPIKey(await res.text())
         else:
-            raise InvalidAPIKeyException(json_response["message"])
+            raise InvalidAPIKey(json_response["message"])
     elif res.status == 429:
         raise RateLimited(await res.text())
+    elif res.status == 502:
+        json_response = await res.json()
+        try:
+            response = json_response["messages"]
+            info = json_response["info"]
+        except:
+            raise BadGateway(await res.text())
+        else:
+            raise BadGateway(response, info)
     else:
         raise RuntimeError(await res.text())
 

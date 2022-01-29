@@ -28,15 +28,19 @@ class HTTPClient:
         if params is None:
             params = {}
 
-        async with self._session.get(
-            f"{self._base}/{endpoint}",
-            headers={
-                "Authorization": self.__auth,
-                "X-RapidAPI-Key": self.__key,
-                "X-RapidAPI-Host": "random-stuff-api.p.rapidapi.com",
-            },
-            params=params,
-        ) as response:
+        try:
+            response = await self._session.get(
+                f"{self._base}/{endpoint}",
+                headers={
+                    "Authorization": self.__auth,
+                    "X-RapidAPI-Key": self.__key,
+                    "X-RapidAPI-Host": "random-stuff-api.p.rapidapi.com",
+                },
+                params=params,
+            )
+        except aiohttp.client_exceptions.ClientConnectorError:
+            raise ConnectionError("Could not connect to API.")
+        else:
             await check_res(response)
             try:
                 return Response(await response.json(), response.headers)

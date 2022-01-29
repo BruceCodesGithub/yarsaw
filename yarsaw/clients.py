@@ -83,29 +83,26 @@ class Client(HTTPClient):
                 response.body["BotDetails"]["BotBirthDate"],
                 response.body["BotDetails"]["BotBirthPlace"],
             ),
-            response.headers,
+            APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"]))
         )
 
     async def get_animal_image(
-        self, animal: str, limit: int, return_type="nested"
-    ) -> dict:
+        self, animal: str, amount: int = 1
+    ) -> Image:
         """
         Gets animal images from the API.
 
         Parameters
         -------------
         animal: :class:`str`
-            The animal you want to get images for.
-        limit: :class:`int`
+            The animal you want to get images for. Supported Animals: Dog, Cat, Wolf, FOx
+        amount: Optional[:class:`int`]
             The amount of images you want to get.
-        return_type: Optional[:class:`str`]
-            The return type of the images.
-            Allowed Values: "nested" (images=[{"url": "img1"}, {"url", "img2"}]), "list" (images=["img1", "img2"])
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the images and their details.
+        :class:`Image`
+            An object containing the image.
         """
 
         try:
@@ -119,28 +116,17 @@ class Client(HTTPClient):
                 "Invalid Parameter Type. Make sure you are passing a string."
             )
 
-        res = await self.request(f"animals/{animal.upper()}", params={"limit": limit})
-        try:
-            if return_type.lower() == "nested":
-                return {"images": res.body, "headers": res.headers}
-            else:
-                images = res.body
-                return_string = []
-                for image in images:
-                    return_string.append(image["url"])
+        response = await self.request(f"animals/{animal.upper()}", params={"limit": amount})
+        images = response.body
+        image_list = []
+        for image in images:
+            image_list.append(image["url"])
 
-                return {"images": return_string, "headers": res.headers}
-        except AttributeError:
-            images = res.body
-            return_string = []
-            for img in images:
-                return_string.append(img["url"])
-
-            return {"images": return_string, "headers": res.headers}
+        return Image(image_list, APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])))
 
     async def get_anime_gif(
-        self, gif_type: str, limit: int, return_type: str = "nested"
-    ) -> dict:
+        self, gif_type: str, amount: int = 1
+    ) -> Image:
         """
         Gets an anime gif from the API.
 
@@ -148,16 +134,13 @@ class Client(HTTPClient):
         -------------
         gif_type: :class:`str`
             The type of gif you want to get. Allowed Types: happy, hi, kiss, hug, punch, pat, slap, nervous, run, cry
-        limit: :class:`int`
+        amount: Optional[:class:`int`]
             The number of gifs you want to get.
-        return_type: Optional[:class:`str`]
-            Return Type of the GIFs.
-            Allowed Types: nested (gifs=[{"url": "url1"}, {"url": "url2"}]) , list (gif=["url1", "url2"]).
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the gifs and headers.
+        :class:`Image`
+            An object containing the gif.
         """
         try:
             if gif_type.lower() not in ANIME_TYPES:
@@ -170,28 +153,17 @@ class Client(HTTPClient):
                 "Invalid Parameter Type. Make sure you are passing a string."
             )
 
-        res = await self.request(f"anime/{gif_type.lower()}", params={"limit": limit})
-        try:
-            if return_type.lower() == "nested":
-                return {"gifs": res.body, "headers": res.headers}
-            else:
-                gifs = res.body
-                return_string = []
-                for gif in gifs:
-                    return_string.append(gif["url"])
+        response = await self.request(f"anime/{gif_type.lower()}", params={"limit": amount})
+        gifs = response.body
+        gif_list = []
+        for gif in gifs:
+            gif_list.append(gif["url"])
 
-                return {"gifs": return_string, "headers": res.headers}
-        except AttributeError:
-            gifs = res.body
-            return_string = []
-            for gif in gifs:
-                return_string.append(gif["url"])
-
-            return {"gifs": return_string, "headers": res.headers}
+        return Image(gif_list, APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])))
 
     async def canvas(
         self, method, save_to=None, txt=None, text=None, img1=None, img2=None, img3=None
-    ) -> Union[Response, int]:
+    ) -> Union[CanvasResponse, int]:
 
         """
         Edit Images with the API.
@@ -228,8 +200,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        Union[:class:`Response`, :class:`int`]
-            If save_to is not specified, the edited image will be returned as a Response object containing the bytes and the headers.
+        Union[:class:`CanvasResponse`, :class:`int`]
+            If save_to is not specified, the edited image will be returned as a Response object containing the base64 encoded image.
             If save_to is specified, the edited image will be saved to the specified path, and will 200.
 
         """
@@ -257,7 +229,7 @@ class Client(HTTPClient):
 
             return 200
 
-        return Response(base64.b64decode((base)), response.headers)
+        return Response(base64.b64decode((base)), base, APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])))
 
     async def get_joke(self, joke_type="any", blacklist: list = []) -> Joke:
         """
@@ -309,7 +281,7 @@ class Client(HTTPClient):
                 response.body["id"],
                 response.body["safe"],
                 response.body["lang"],
-                response.headers,
+                APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])),
                 setup=response.body["setup"],
                 delivery=response.body["delivery"],
             )
@@ -322,7 +294,7 @@ class Client(HTTPClient):
                 response.body["id"],
                 response.body["safe"],
                 response.body["lang"],
-                response.headers,
+                APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])),
                 joke=response.body["joke"],
             )
 
@@ -349,7 +321,7 @@ class Client(HTTPClient):
 
     async def fetch_subreddit_post(
         self, subreddit: str, search_type: str = "hot"
-    ) -> dict:
+    ) -> RedditPost:
         """
         Fetches a random post from a subreddit.
 
@@ -363,8 +335,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the post's details and the request's headers.
+        :class:`RedditPost`
+            An object containing the post and its details.
         """
         if search_type.lower() not in SEARCH_TYPES:
             raise ValueError(
@@ -375,10 +347,27 @@ class Client(HTTPClient):
             f"reddit/FetchSubredditPost",
             params={"subreddit": subreddit, "searchType": search_type},
         )
-        res.body.update({"headers": res.headers})
-        return res.body
+        return RedditPost(
+            res.body["id"],
+            res.body["type"],
+            res.body["title"],
+            res.body["author"],
+            res.body["postLink"],
+            res.body["image"],
+            res.body["gallery"],
+            res.body["text"],
+            res.body["thumbnail"],
+            res.body["subreddit"],
+            res.body["NSFW"],
+            res.body["spoiler"],
+            res.body["createdUtc"],
+            res.body["upvotes"],
+            res.body["downvotes"],
+            res.body["upvoteRatio"],
+            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+        )
 
-    async def fetch_post(self, subreddit: str, search_type: str = "hot") -> dict:
+    async def fetch_post(self, subreddit: str, search_type: str = "hot") -> RedditPost:
         """
         Fetches a random post from a subreddit. This is an alias of :meth:`fetch_subreddit_post`.
 
@@ -392,8 +381,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the post's details and the request's headers.
+        :class:`RedditPost`
+            An object containing the post and its details.
         """
         if search_type.lower() not in SEARCH_TYPES:
             raise ValueError(
@@ -404,10 +393,27 @@ class Client(HTTPClient):
             f"reddit/FetchPost",
             params={"subreddit": subreddit, "searchType": search_type},
         )
-        res.body.update({"headers": res.headers})
-        return res.body
+        return RedditPost(
+            res.body["id"],
+            res.body["type"],
+            res.body["title"],
+            res.body["author"],
+            res.body["postLink"],
+            res.body["image"],
+            res.body["gallery"],
+            res.body["text"],
+            res.body["thumbnail"],
+            res.body["subreddit"],
+            res.body["NSFW"],
+            res.body["spoiler"],
+            res.body["createdUtc"],
+            res.body["upvotes"],
+            res.body["downvotes"],
+            res.body["upvoteRatio"],
+            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+        )
 
-    async def random_meme(self, search_type: str = "hot") -> dict:
+    async def random_meme(self, search_type: str = "hot") -> RedditPost:
         """
         Gets a random meme from reddit.
 
@@ -418,8 +424,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the post's details and the request's headers.
+        :class:`RedditPost`
+            An object containing the post and its details.
         """
         if search_type.lower() not in SEARCH_TYPES:
             raise ValueError(
@@ -429,10 +435,27 @@ class Client(HTTPClient):
         res = await self.request(
             f"reddit/RandomMeme", params={"searchType": search_type}
         )
-        res.body.update({"headers": res.headers})
-        return res.body
+        return RedditPost(
+            res.body["id"],
+            res.body["type"],
+            res.body["title"],
+            res.body["author"],
+            res.body["postLink"],
+            res.body["image"],
+            res.body["gallery"],
+            res.body["text"],
+            res.body["thumbnail"],
+            res.body["subreddit"],
+            res.body["NSFW"],
+            res.body["spoiler"],
+            res.body["createdUtc"],
+            res.body["upvotes"],
+            res.body["downvotes"],
+            res.body["upvoteRatio"],
+            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+        )
 
-    async def fetch_random_post(self, search_type: str = "hot") -> dict:
+    async def fetch_random_post(self, search_type: str = "hot") -> RedditPost:
         """
         Fetches a random post from reddit.
 
@@ -443,8 +466,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the post's details and the request's headers.
+        :class:`RedditPost`
+            An object containing the post and its details.
         """
         if search_type.lower() not in SEARCH_TYPES:
             raise ValueError(
@@ -454,10 +477,27 @@ class Client(HTTPClient):
         res = await self.request(
             f"reddit/FetchRandomPost", params={"searchType": search_type}
         )
-        res.body.update({"headers": res.headers})
-        return res.body
+        return RedditPost(
+            res.body["id"],
+            res.body["type"],
+            res.body["title"],
+            res.body["author"],
+            res.body["postLink"],
+            res.body["image"],
+            res.body["gallery"],
+            res.body["text"],
+            res.body["thumbnail"],
+            res.body["subreddit"],
+            res.body["NSFW"],
+            res.body["spoiler"],
+            res.body["createdUtc"],
+            res.body["upvotes"],
+            res.body["downvotes"],
+            res.body["upvoteRatio"],
+            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+        )
 
-    async def fetch_post_by_id(self, post_id: str, search_type: str = "hot") -> dict:
+    async def fetch_post_by_id(self, post_id: str, search_type: str = "hot") -> RedditPost:
         """
         Fetch a reddit post by its ID.
 
@@ -471,8 +511,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the post's details and the request's headers.
+        :class:`RedditPost`
+            An object containing the post and its details.
         """
         if search_type.lower() not in SEARCH_TYPES:
             raise ValueError(
@@ -482,8 +522,25 @@ class Client(HTTPClient):
         res = await self.request(
             f"reddit/FetchPostById", params={"id": post_id, "searchType": search_type}
         )
-        res.body.update({"headers": res.headers})
-        return res.body
+        return RedditPost(
+            res.body["id"],
+            res.body["type"],
+            res.body["title"],
+            res.body["author"],
+            res.body["postLink"],
+            res.body["image"],
+            res.body["gallery"],
+            res.body["text"],
+            res.body["thumbnail"],
+            res.body["subreddit"],
+            res.body["NSFW"],
+            res.body["spoiler"],
+            res.body["createdUtc"],
+            res.body["upvotes"],
+            res.body["downvotes"],
+            res.body["upvoteRatio"],
+            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+        )
 
     # NOT TESTED - 401 Unauthorized
 
@@ -502,11 +559,16 @@ class Client(HTTPClient):
             A list containing the weather details.
         """
         res = await self.request(f"weather", params={"city": city})
-        return res.body
+        try:
+            res.body.append(APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])))
+        except:
+            return res.body
+        else:
+            return res.body
 
     ## PREMIUM ENDPOINTS
 
-    async def get_fact(self, fact_type="all") -> dict:
+    async def get_fact(self, fact_type="all") -> Fact:
         """
         Fetches a random fact from the API. PREMIUM ENDPOINT.
 
@@ -517,8 +579,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the fact's details and the request's headers.
+        :class:`Fact`
+            An object containing the fact.
         """
 
         if fact_type.lower() not in FACT_TYPES:
@@ -526,10 +588,9 @@ class Client(HTTPClient):
                 "Invalid Fact Type. Supported types are: " + ", ".join(FACT_TYPES)
             )
         res = await self.request(f"facts/{fact_type.lower()}")
-        res.body.update({"headers": res.headers})
-        return res.body
+        return Fact(res.body["fact"], APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])))
 
-    async def get_waifu(self, image_type, waifu_type=None) -> dict:
+    async def get_waifu(self, image_type, waifu_type=None) -> Waifu:
         """
         Fetches SFW or NSFW waifu images from the API. PREMIUM ENDPOINT.
 
@@ -543,8 +604,8 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`dict`
-            A dictionary containing the waifu's details and the request's headers.
+        :class:`Waifu`
+            An object containing the waifu image url.
         """
         if waifu_type is None:
             waifu_type = ""
@@ -552,8 +613,7 @@ class Client(HTTPClient):
         res = await self.request(
             f"waifu/{image_type}", params={"waifu_type": waifu_type}
         )
-        res.body.update({"headers": res.headers})
-        return res.body
+        return Waifu(res.body["url"], APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])))
 
     async def disconnect(self):
         """Closes the Client Session"""

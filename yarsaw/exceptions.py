@@ -1,10 +1,13 @@
-class InvalidPlanException(Exception):
+class InvalidPlan(Exception):
     pass
 
 
-class InvalidAPIKeyException(Exception):
+class InvalidAPIKey(Exception):
     pass
 
 
 class RateLimited(Exception):
+    pass
+
+class BadGateway(Exception):
     pass
