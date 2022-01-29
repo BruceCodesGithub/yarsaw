@@ -47,7 +47,7 @@ import asyncio
 client = yarsaw.Client("RSA Key", "RapidAPI Key")
 async def joke():
    joke = await client.get_joke() # get the joke
-   formatted_joke = yarsaw.Utils().format_joke(joke) # format the joke (optional)
+   formatted_joke = yarsaw.format_joke(joke) # format the joke (optional)
    print(formatted_joke) # print the joke
 asyncio.get_event_loop().run_until_complete(joke()) # run the joke() function
 ```

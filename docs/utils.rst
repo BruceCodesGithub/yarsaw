@@ -1,22 +1,22 @@
 Utils
 ===========================================================
 
-
-
 ===================================
-Utils
+Helper Functions
 ===================================
 
-Support functions for the clients.
+Support functions for the :class:`Client` methods.
 
-.. autoclass:: yarsaw.Utils
-   :members:
-   :show-inheritance:
+.. autofunction:: yarsaw.format_joke()
+
+.. autofunction:: yarsaw.generate_uid()
 
 
 ===================================
 Data Classes
 ===================================
+
+.. autoclass:: yarsaw.APIInfo
 
 .. autoclass :: yarsaw.BotDetails
    :members:
@@ -27,18 +27,28 @@ Data Classes
 .. autoclass :: yarsaw.Joke
    :members:
 
+.. autoclass:: yarsaw.RedditPost
+
+.. autoclass:: yarsaw.Image
+
+.. autoclass:: yarsaw.CanvasResponse
+
+.. autoclass:: yarsaw.Waifu
+
+.. autoclass:: yarsaw.Fact
+
 
 ===================================
-Exception Classes
+Exceptions
 ===================================
 
-.. autoclass :: yarsaw.InvalidPlanException
+.. autoexception :: yarsaw.InvalidPlan
    :members:
 
-.. autoclass :: yarsaw.InvalidAPIKeyException
+.. autoexception :: yarsaw.InvalidAPIKey
    :members:
 
-.. autoclass :: yarsaw.RateLimited
+.. autoexception :: yarsaw.RateLimited
    :members:
 
 Documentation Last Updated on |today|
