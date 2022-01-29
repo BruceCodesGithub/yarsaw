@@ -14,7 +14,7 @@ async def main():
             keep_talking = False  # end loop
         else:
             res = await client.get_ai_response(cin, bot_name="yarsaw")
-            print("Bot:\t" + res.AIResponse)
+            print("Bot:\t" + res.response)
 
     await client.disconnect()  # disconnect the client at the end of the loop
 
