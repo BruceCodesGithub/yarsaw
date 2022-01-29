@@ -9,5 +9,6 @@ class InvalidAPIKey(Exception):
 class RateLimited(Exception):
     pass
 
+
 class BadGateway(Exception):
     pass

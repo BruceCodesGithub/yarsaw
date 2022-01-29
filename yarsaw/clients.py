@@ -83,12 +83,14 @@ class Client(HTTPClient):
                 response.body["BotDetails"]["BotBirthDate"],
                 response.body["BotDetails"]["BotBirthPlace"],
             ),
-            APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"]))
+            APIInfo(
+                int(response.headers["X-RateLimit-Requests-Limit"]),
+                int(response.headers["X-RateLimit-Requests-Remaining"]),
+                int(response.headers["X-RateLimit-Requests-Reset"]),
+            ),
         )
 
-    async def get_animal_image(
-        self, animal: str, amount: int = 1
-    ) -> Image:
+    async def get_animal_image(self, animal: str, amount: int = 1) -> Image:
         """
         Gets animal images from the API.
 
@@ -116,17 +118,24 @@ class Client(HTTPClient):
                 "Invalid Parameter Type. Make sure you are passing a string."
             )
 
-        response = await self.request(f"animals/{animal.upper()}", params={"limit": amount})
+        response = await self.request(
+            f"animals/{animal.upper()}", params={"limit": amount}
+        )
         images = response.body
         image_list = []
         for image in images:
             image_list.append(image["url"])
 
-        return Image(image_list, APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])))
+        return Image(
+            image_list,
+            APIInfo(
+                int(response.headers["X-RateLimit-Requests-Limit"]),
+                int(response.headers["X-RateLimit-Requests-Remaining"]),
+                int(response.headers["X-RateLimit-Requests-Reset"]),
+            ),
+        )
 
-    async def get_anime_gif(
-        self, gif_type: str, amount: int = 1
-    ) -> Image:
+    async def get_anime_gif(self, gif_type: str, amount: int = 1) -> Image:
         """
         Gets an anime gif from the API.
 
@@ -153,13 +162,22 @@ class Client(HTTPClient):
                 "Invalid Parameter Type. Make sure you are passing a string."
             )
 
-        response = await self.request(f"anime/{gif_type.lower()}", params={"limit": amount})
+        response = await self.request(
+            f"anime/{gif_type.lower()}", params={"limit": amount}
+        )
         gifs = response.body
         gif_list = []
         for gif in gifs:
             gif_list.append(gif["url"])
 
-        return Image(gif_list, APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])))
+        return Image(
+            gif_list,
+            APIInfo(
+                int(response.headers["X-RateLimit-Requests-Limit"]),
+                int(response.headers["X-RateLimit-Requests-Remaining"]),
+                int(response.headers["X-RateLimit-Requests-Reset"]),
+            ),
+        )
 
     async def canvas(
         self, method, save_to=None, txt=None, text=None, img1=None, img2=None, img3=None
@@ -229,7 +247,15 @@ class Client(HTTPClient):
 
             return 200
 
-        return Response(base64.b64decode((base)), base, APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])))
+        return Response(
+            base64.b64decode((base)),
+            base,
+            APIInfo(
+                int(response.headers["X-RateLimit-Requests-Limit"]),
+                int(response.headers["X-RateLimit-Requests-Remaining"]),
+                int(response.headers["X-RateLimit-Requests-Reset"]),
+            ),
+        )
 
     async def get_joke(self, joke_type="any", blacklist: list = []) -> Joke:
         """
@@ -281,7 +307,11 @@ class Client(HTTPClient):
                 response.body["id"],
                 response.body["safe"],
                 response.body["lang"],
-                APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])),
+                APIInfo(
+                    int(response.headers["X-RateLimit-Requests-Limit"]),
+                    int(response.headers["X-RateLimit-Requests-Remaining"]),
+                    int(response.headers["X-RateLimit-Requests-Reset"]),
+                ),
                 setup=response.body["setup"],
                 delivery=response.body["delivery"],
             )
@@ -294,7 +324,11 @@ class Client(HTTPClient):
                 response.body["id"],
                 response.body["safe"],
                 response.body["lang"],
-                APIInfo(int(response.headers["X-RateLimit-Requests-Limit"]), int(response.headers["X-RateLimit-Requests-Remaining"]), int(response.headers["X-RateLimit-Requests-Reset"])),
+                APIInfo(
+                    int(response.headers["X-RateLimit-Requests-Limit"]),
+                    int(response.headers["X-RateLimit-Requests-Remaining"]),
+                    int(response.headers["X-RateLimit-Requests-Reset"]),
+                ),
                 joke=response.body["joke"],
             )
 
@@ -364,7 +398,11 @@ class Client(HTTPClient):
             res.body["upvotes"],
             res.body["downvotes"],
             res.body["upvoteRatio"],
-            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+            APIInfo(
+                int(res.headers["X-RateLimit-Requests-Limit"]),
+                int(res.headers["X-RateLimit-Requests-Remaining"]),
+                int(res.headers["X-RateLimit-Requests-Reset"]),
+            ),
         )
 
     async def fetch_post(self, subreddit: str, search_type: str = "hot") -> RedditPost:
@@ -410,7 +448,11 @@ class Client(HTTPClient):
             res.body["upvotes"],
             res.body["downvotes"],
             res.body["upvoteRatio"],
-            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+            APIInfo(
+                int(res.headers["X-RateLimit-Requests-Limit"]),
+                int(res.headers["X-RateLimit-Requests-Remaining"]),
+                int(res.headers["X-RateLimit-Requests-Reset"]),
+            ),
         )
 
     async def random_meme(self, search_type: str = "hot") -> RedditPost:
@@ -452,7 +494,11 @@ class Client(HTTPClient):
             res.body["upvotes"],
             res.body["downvotes"],
             res.body["upvoteRatio"],
-            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+            APIInfo(
+                int(res.headers["X-RateLimit-Requests-Limit"]),
+                int(res.headers["X-RateLimit-Requests-Remaining"]),
+                int(res.headers["X-RateLimit-Requests-Reset"]),
+            ),
         )
 
     async def fetch_random_post(self, search_type: str = "hot") -> RedditPost:
@@ -494,10 +540,16 @@ class Client(HTTPClient):
             res.body["upvotes"],
             res.body["downvotes"],
             res.body["upvoteRatio"],
-            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+            APIInfo(
+                int(res.headers["X-RateLimit-Requests-Limit"]),
+                int(res.headers["X-RateLimit-Requests-Remaining"]),
+                int(res.headers["X-RateLimit-Requests-Reset"]),
+            ),
         )
 
-    async def fetch_post_by_id(self, post_id: str, search_type: str = "hot") -> RedditPost:
+    async def fetch_post_by_id(
+        self, post_id: str, search_type: str = "hot"
+    ) -> RedditPost:
         """
         Fetch a reddit post by its ID.
 
@@ -539,7 +591,11 @@ class Client(HTTPClient):
             res.body["upvotes"],
             res.body["downvotes"],
             res.body["upvoteRatio"],
-            APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])),
+            APIInfo(
+                int(res.headers["X-RateLimit-Requests-Limit"]),
+                int(res.headers["X-RateLimit-Requests-Remaining"]),
+                int(res.headers["X-RateLimit-Requests-Reset"]),
+            ),
         )
 
     # NOT TESTED - 401 Unauthorized
@@ -560,7 +616,13 @@ class Client(HTTPClient):
         """
         res = await self.request(f"weather", params={"city": city})
         try:
-            res.body.append(APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])))
+            res.body.append(
+                APIInfo(
+                    int(res.headers["X-RateLimit-Requests-Limit"]),
+                    int(res.headers["X-RateLimit-Requests-Remaining"]),
+                    int(res.headers["X-RateLimit-Requests-Reset"]),
+                )
+            )
         except:
             return res.body
         else:
@@ -588,7 +650,14 @@ class Client(HTTPClient):
                 "Invalid Fact Type. Supported types are: " + ", ".join(FACT_TYPES)
             )
         res = await self.request(f"facts/{fact_type.lower()}")
-        return Fact(res.body["fact"], APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])))
+        return Fact(
+            res.body["fact"],
+            APIInfo(
+                int(res.headers["X-RateLimit-Requests-Limit"]),
+                int(res.headers["X-RateLimit-Requests-Remaining"]),
+                int(res.headers["X-RateLimit-Requests-Reset"]),
+            ),
+        )
 
     async def get_waifu(self, image_type, waifu_type=None) -> Waifu:
         """
@@ -613,7 +682,14 @@ class Client(HTTPClient):
         res = await self.request(
             f"waifu/{image_type}", params={"waifu_type": waifu_type}
         )
-        return Waifu(res.body["url"], APIInfo(int(res.headers["X-RateLimit-Requests-Limit"]), int(res.headers["X-RateLimit-Requests-Remaining"]), int(res.headers["X-RateLimit-Requests-Reset"])))
+        return Waifu(
+            res.body["url"],
+            APIInfo(
+                int(res.headers["X-RateLimit-Requests-Limit"]),
+                int(res.headers["X-RateLimit-Requests-Remaining"]),
+                int(res.headers["X-RateLimit-Requests-Reset"]),
+            ),
+        )
 
     async def disconnect(self):
         """Closes the Client Session"""

@@ -5,101 +5,98 @@ from typing import Union
 from .data_classes import *
 
 
-def format_joke(
-        joke: Union[dict, Joke], format_as="{setup}\n{delivery}"
-    ) -> str:
-        """
-        Support function for :func:`Client.get_joke`. Auto-format a joke. If its a single type of joke, it returns the joke itself. If its a two-part joke, it returns the setup and delivery, separated by a newline or a character you choose.
+def format_joke(joke: Union[dict, Joke], format_as="{setup}\n{delivery}") -> str:
+    """
+    Support function for :func:`Client.get_joke`. Auto-format a joke. If its a single type of joke, it returns the joke itself. If its a two-part joke, it returns the setup and delivery, separated by a newline or a character you choose.
 
-        Parameters
-        ----------
+    Parameters
+    ----------
 
-        joke: Union[:class:`dict`, :class:`Joke`]
-            The joke to format.
+    joke: Union[:class:`dict`, :class:`Joke`]
+        The joke to format.
 
-        format_as: Optional[:class:`str`]
-            The format to use. Defaults to ``"{setup}\\n{delivery}"``.
+    format_as: Optional[:class:`str`]
+        The format to use. Defaults to ``"{setup}\\n{delivery}"``.
 
-        Returns
-        -------
+    Returns
+    -------
 
-        :class:`str`
-            The formatted joke.
-        """
-        if not "{setup}" in format_as:
+    :class:`str`
+        The formatted joke.
+    """
+    if not "{setup}" in format_as:
+        raise ValueError(
+            "'format_as' must contain the '{setup}' and '{devlivery}' or '{punchline}' values"
+        )
+    elif not "{delivery}" in format_as:
+        if not "{punchline}" in format_as:
             raise ValueError(
                 "'format_as' must contain the '{setup}' and '{devlivery}' or '{punchline}' values"
             )
-        elif not "{delivery}" in format_as:
-            if not "{punchline}" in format_as:
-                raise ValueError(
-                    "'format_as' must contain the '{setup}' and '{devlivery}' or '{punchline}' values"
-                )
-            else:
-                if isinstance(joke, dict):
-                    if joke.get("type") == "twopart":
-                        return format_as.format(
-                            setup=joke.get("setup"), punchline=joke.get("delivery")
-                        )
-                    else:
-                        return joke.get("joke")
-                elif isinstance(joke, Joke):
-                    if joke.type == "twopart":
-                        return format_as.format(
-                            setup=joke.setup, punchline=joke.delivery
-                        )
-                    else:
-                        return joke.joke
-                else:
-                    raise TypeError("'joke' must be a dict or Joke object")
-
-        if isinstance(joke, dict):
-            if joke.get("type") == "twopart":
-                return format_as.format(
-                    setup=joke.get("setup"), delivery=joke.get("delivery")
-                )
-            else:
-                return joke.get("joke")
-        elif isinstance(joke, Joke):
-            if joke.type == "twopart":
-                return format_as.format(setup=joke.setup, delivery=joke.delivery)
-            else:
-                return joke.joke
         else:
-            raise TypeError("'joke' must be a dict or Joke object")
+            if isinstance(joke, dict):
+                if joke.get("type") == "twopart":
+                    return format_as.format(
+                        setup=joke.get("setup"), punchline=joke.get("delivery")
+                    )
+                else:
+                    return joke.get("joke")
+            elif isinstance(joke, Joke):
+                if joke.type == "twopart":
+                    return format_as.format(setup=joke.setup, punchline=joke.delivery)
+                else:
+                    return joke.joke
+            else:
+                raise TypeError("'joke' must be a dict or Joke object")
+
+    if isinstance(joke, dict):
+        if joke.get("type") == "twopart":
+            return format_as.format(
+                setup=joke.get("setup"), delivery=joke.get("delivery")
+            )
+        else:
+            return joke.get("joke")
+    elif isinstance(joke, Joke):
+        if joke.type == "twopart":
+            return format_as.format(setup=joke.setup, delivery=joke.delivery)
+        else:
+            return joke.joke
+    else:
+        raise TypeError("'joke' must be a dict or Joke object")
+
 
 def generate_uid(chars: int = 8, letters=True, special_chars=False):
-        """
-        Support function for :func:`Client.get_ai_response`. Generates a random string of characters to be used as a unique identifier for a user.
+    """
+    Support function for :func:`Client.get_ai_response`. Generates a random string of characters to be used as a unique identifier for a user.
 
-        Parameters
-        ----------
+    Parameters
+    ----------
 
-        chars: Optional[:class:`int`]
-            The number of characters to generate. Defaults to 8.
+    chars: Optional[:class:`int`]
+        The number of characters to generate. Defaults to 8.
 
-        letters: Optional[:class:`bool`]
-            Whether or not to include letters. Defaults to True.
+    letters: Optional[:class:`bool`]
+        Whether or not to include letters. Defaults to True.
 
-        special_chars: Optional[:class:`bool`]
-            Whether or not to include special characters. Defaults to False.
+    special_chars: Optional[:class:`bool`]
+        Whether or not to include special characters. Defaults to False.
 
-        Returns
-        -------
+    Returns
+    -------
 
-        :class:`str`
-            The generated UID.
-        """
-        characters = string.digits
+    :class:`str`
+        The generated UID.
+    """
+    characters = string.digits
 
-        if special_chars:
-            characters = characters + string.punctuation
+    if special_chars:
+        characters = characters + string.punctuation
 
-        if letters:
-            characters = characters + string.ascii_letters
+    if letters:
+        characters = characters + string.ascii_letters
 
-        uid = "".join(random.choice(characters) for i in range(chars))
-        return uid
+    uid = "".join(random.choice(characters) for i in range(chars))
+    return uid
 
 
 async def check_res(res):
