@@ -247,7 +247,7 @@ class Client(HTTPClient):
 
             return 200
 
-        return Response(
+        return CanvasResponse(
             base64.b64decode((base)),
             base,
             APIInfo(

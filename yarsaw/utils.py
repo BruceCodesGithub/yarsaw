@@ -99,6 +99,9 @@ def generate_uid(chars: int = 8, letters=True, special_chars=False):
     return uid
 
 
+# check_res was inspired by randomstuff.py from nerdguyahmad
+
+
 async def check_res(res):
     if res.status == 200:
         pass
