@@ -5,6 +5,9 @@ from typing import Union
 from .data_classes import *
 
 
+# format_joke and generate_uid were inspired by nerdguyahmad's randomstuff.py
+
+
 def format_joke(joke: Joke, format_as="{setup}\n{delivery}") -> str:
     """
     Support function for :func:`Client.get_joke`. Auto-format a joke. If its a single type of joke, it returns the joke itself. If its a two-part joke, it returns the setup and delivery, separated by a newline or a character you choose.
@@ -33,7 +36,6 @@ def format_joke(joke: Joke, format_as="{setup}\n{delivery}") -> str:
             return joke.joke
     else:
         raise ValueError("The format_as string must contain {setup} and {delivery}")
-    
 
 
 def generate_uid(chars: int = 8, letters=True, special_chars=False):
