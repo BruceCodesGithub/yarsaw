@@ -5,14 +5,14 @@ from typing import Union
 from .data_classes import *
 
 
-def format_joke(joke: Union[dict, Joke], format_as="{setup}\n{delivery}") -> str:
+def format_joke(joke: Joke, format_as="{setup}\n{delivery}") -> str:
     """
     Support function for :func:`Client.get_joke`. Auto-format a joke. If its a single type of joke, it returns the joke itself. If its a two-part joke, it returns the setup and delivery, separated by a newline or a character you choose.
 
     Parameters
     ----------
 
-    joke: Union[:class:`dict`, :class:`Joke`]
+    joke: :class:`Joke`
         The joke to format.
 
     format_as: Optional[:class:`str`]
@@ -24,45 +24,16 @@ def format_joke(joke: Union[dict, Joke], format_as="{setup}\n{delivery}") -> str
     :class:`str`
         The formatted joke.
     """
-    if not "{setup}" in format_as:
-        raise ValueError(
-            "'format_as' must contain the '{setup}' and '{devlivery}' or '{punchline}' values"
-        )
-    elif not "{delivery}" in format_as:
-        if not "{punchline}" in format_as:
-            raise ValueError(
-                "'format_as' must contain the '{setup}' and '{devlivery}' or '{punchline}' values"
-            )
-        else:
-            if isinstance(joke, dict):
-                if joke.get("type") == "twopart":
-                    return format_as.format(
-                        setup=joke.get("setup"), punchline=joke.get("delivery")
-                    )
-                else:
-                    return joke.get("joke")
-            elif isinstance(joke, Joke):
-                if joke.type == "twopart":
-                    return format_as.format(setup=joke.setup, punchline=joke.delivery)
-                else:
-                    return joke.joke
-            else:
-                raise TypeError("'joke' must be a dict or Joke object")
-
-    if isinstance(joke, dict):
-        if joke.get("type") == "twopart":
-            return format_as.format(
-                setup=joke.get("setup"), delivery=joke.get("delivery")
-            )
-        else:
-            return joke.get("joke")
-    elif isinstance(joke, Joke):
+    if not isinstance(joke, Joke):
+        raise TypeError(f"Expected joke to be of type Joke, got {type(joke)}")
+    if "{setup}" in format_as and "{delivery}" in format_as:
         if joke.type == "twopart":
             return format_as.format(setup=joke.setup, delivery=joke.delivery)
         else:
             return joke.joke
     else:
-        raise TypeError("'joke' must be a dict or Joke object")
+        raise ValueError("The format_as string must contain {setup} and {delivery}")
+    
 
 
 def generate_uid(chars: int = 8, letters=True, special_chars=False):
