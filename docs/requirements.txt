@@ -1,0 +1,3 @@
+sphinx==4.4.0
+furo==2022.01.02
+sphinx_copybutton==0.4.0
