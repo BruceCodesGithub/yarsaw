@@ -122,10 +122,7 @@ class Client(HTTPClient):
             f"animals/{animal.upper()}", params={"limit": amount}
         )
         images = response.body
-        image_list = []
-        for image in images:
-            image_list.append(image["url"])
-
+        image_list = [image["url"] for image in images]
         return Image(
             image_list,
             APIInfo(
@@ -166,10 +163,7 @@ class Client(HTTPClient):
             f"anime/{gif_type.lower()}", params={"limit": amount}
         )
         gifs = response.body
-        gif_list = []
-        for gif in gifs:
-            gif_list.append(gif["url"])
-
+        gif_list = [gif["url"] for gif in gifs]
         return Image(
             gif_list,
             APIInfo(
@@ -241,10 +235,8 @@ class Client(HTTPClient):
         base = response.body["base64"]
 
         if save_to:
-            file = open(save_to, "wb")
-            file.write(base64.b64decode((base)))
-            file.close()
-
+            with open(save_to, "wb") as file:
+                file.write(base64.b64decode((base)))
             return 200
 
         return CanvasResponse(
@@ -378,9 +370,10 @@ class Client(HTTPClient):
             )
 
         res = await self.request(
-            f"reddit/FetchSubredditPost",
+            'reddit/FetchSubredditPost',
             params={"subreddit": subreddit, "searchType": search_type},
         )
+
         return RedditPost(
             res.body["id"],
             res.body["type"],
@@ -428,9 +421,10 @@ class Client(HTTPClient):
             )
 
         res = await self.request(
-            f"reddit/FetchPost",
+            'reddit/FetchPost',
             params={"subreddit": subreddit, "searchType": search_type},
         )
+
         return RedditPost(
             res.body["id"],
             res.body["type"],
@@ -475,7 +469,7 @@ class Client(HTTPClient):
             )
 
         res = await self.request(
-            f"reddit/RandomMeme", params={"searchType": search_type}
+            "reddit/RandomMeme", params={"searchType": search_type}
         )
         return RedditPost(
             res.body["id"],
@@ -521,7 +515,7 @@ class Client(HTTPClient):
             )
 
         res = await self.request(
-            f"reddit/FetchRandomPost", params={"searchType": search_type}
+            "reddit/FetchRandomPost", params={"searchType": search_type}
         )
         return RedditPost(
             res.body["id"],
@@ -572,7 +566,7 @@ class Client(HTTPClient):
             )
 
         res = await self.request(
-            f"reddit/FetchPostById", params={"id": post_id, "searchType": search_type}
+            "reddit/FetchPostById", params={"id": post_id, "searchType": search_type}
         )
         return RedditPost(
             res.body["id"],
@@ -614,7 +608,7 @@ class Client(HTTPClient):
         :class:`list`
             A list containing the weather details.
         """
-        res = await self.request(f"weather", params={"city": city})
+        res = await self.request('weather', params={"city": city})
         try:
             res.body.append(
                 APIInfo(
