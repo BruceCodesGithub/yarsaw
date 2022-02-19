@@ -3,6 +3,19 @@ Changelog
 
 
 ----------
+``2.1``
+----------
+
+* Documentation update.
+    * Change theme to ``furo``.
+* Edit dataclasses.
+    * Dataclasses now have more pythonic parameters for ease of use.
+    * Replaced ``headers`` with ``APIInfo``.
+* Most methods now return dataclass objects.
+* Remove nested return type from ``get_animal_image()`` and ``get_anime_gif()``
+* Various changes.
+
+----------
 ``2.0.1``
 ----------
 

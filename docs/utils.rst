@@ -51,4 +51,7 @@ Exceptions
 .. autoexception :: yarsaw.RateLimited
    :members:
 
+.. autoexception :: yarsaw.BadGateway
+   :members:
+
 Documentation Last Updated on |today|

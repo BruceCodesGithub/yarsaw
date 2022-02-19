@@ -218,12 +218,6 @@ class Client(HTTPClient):
 
         """
 
-        # if method.lower() not in CANVAS_METHODS:
-        #     supported_methods = ", ".join(CANVAS_METHODS)
-        #     raise ValueError(
-        #         f"That method does not exist! Supported Methods: {supported_methods}"
-        #     )
-
         params = {
             "txt": txt or text or "",
             "img1": img1 or "",
