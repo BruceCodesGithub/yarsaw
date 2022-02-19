@@ -9,7 +9,6 @@ An async wrapper for the Random Stuff API.
 
 """
 
-# from .clients import *
 from .client import *
 from .utils import *
 from .exceptions import *
@@ -17,7 +16,7 @@ from .exceptions import *
 __title__ = "yarsaw"
 __summary__ = "An async wrapper for Random Stuff API"
 __author__ = "Bruce"
-__version__ = "2.0.1"
+__version__ = "2.1.0b1"
 __license__ = "MIT"
 __copyright__ = "2021-present BruceCodesGithub"
 

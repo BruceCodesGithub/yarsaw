@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="yarsaw",
-    version="2.0.1",
+    version="2.1.0b1",
     author="Bruce",
     author_email="brucealt69@gmail.com",
     description=("An async wrapper for the Random Stuff API"),

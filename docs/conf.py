@@ -9,6 +9,7 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+# sourcery skip: use-named-expression
 import re
 import os
 import sys
@@ -60,7 +61,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 
-version = "2.0"
+version = "2.1.0b1"
 
 if version:
     release = version
@@ -113,7 +114,7 @@ html_js_files = ["copy.js", "settings.js", "sidebar.js", "custom.js"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
