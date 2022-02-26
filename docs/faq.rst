@@ -1,9 +1,10 @@
+=============================
 Frequently Asked Questions
 =============================
 
--------------------
+******************
 How do I use this?
--------------------
+******************
 1. Install the package
 
    .. code-block:: bash
@@ -40,9 +41,9 @@ How do I use this?
 
 Now just start reading the documentation!
 
---------------------------------------------
+********************************************
 Why does Random Stuff API Require two keys?
---------------------------------------------
+********************************************
 The developer of the Random Stuff API decided to switch to the RapidAPI servers because they are more reliable and faster. The RapidAPI servers require a RapidAPI Key and an Account. The Random API key is used for authentication and the RapidAPI key is used to make requests to the Random Stuff API. Now, several issues were fixed, such as:
 
 * Premium plans were only applicable to the premium endpoints. This meant that even if you had bought premium, you will still only be able to post x requests to the free endpoints instead of xxx requests.
@@ -50,19 +51,19 @@ The developer of the Random Stuff API decided to switch to the RapidAPI servers 
 * The API was slow.
 * The API did not have many examples available.
 
-------------------------------
+******************************
 Does this wrapper still work?
-------------------------------
+******************************
 YES! Unlike most other wrappers, YARSAW still works! Although the API was shifted to RapidAPI and had tons of changes, the wrapper was updated accordingly to accomodate the changes.
 
----------------
+**************
 I have an issue
----------------
+**************
 If its an issue with the wrapper, please open an issue at `GitHub <https://github.com/BruceCodesGithub/yarsaw/issues>`_. If there's a question about the API itself, please join `the PGamerX Studio Discord Server <https://discord.gg/wWgjpK9MDv>`_ and ask there.
 
-----------------------------
+****************************
 Who is behind this wrapper?
-----------------------------
+****************************
 YARSAW is developed by `BruceDev <https://github.com/BruceCodesGithub>`_.
 The API itself is developed by `PGamerX <https://pgamerx.com>`_.
 

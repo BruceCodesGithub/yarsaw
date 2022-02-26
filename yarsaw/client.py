@@ -97,7 +97,7 @@ class Client(HTTPClient):
         Parameters
         -------------
         animal: :class:`str`
-            The animal you want to get images for. Supported Animals: Dog, Cat, Wolf, FOx
+            The animal you want to get images for. Supported Animals: Dog, Cat, Wolf, Fox
         amount: Optional[:class:`int`]
             The amount of images you want to get.
 
@@ -187,10 +187,10 @@ class Client(HTTPClient):
 
             **Allowed Methods**:
 
-                - Method(s) in which only 1 image is required: "affect", "beautiful", "wanted", "delete", "trigger", "facepalm", "blur", "hitler", "kiss", "jail", "invert", "jokeOverHead"
-                - Method(s) in which 2 images are required: "bed", "fuse" , "kiss", "slap", "spank"
-                - Method(s) in which 3 images are required: "distracted"
-                - Method(s) in which only Text is required: "changemymind"
+                - Method(s) in which only 1 image is required: ``affect``, ``beautiful``, ``wanted``, ``delete``, ``trigger``, ``facepalm``, ``blur``, ``hitler``, ``kiss``, ``jail``, ``invert``, ``jokeOverHead``
+                - Method(s) in which 2 images are required: ``bed``, ``fuse`` , ``kiss``, ``slap``, ``spank``
+                - Method(s) in which 3 images are required: ``distracted``
+                - Method(s) in which only Text is required: ``changemymind``
 
         save_to: Optional[:class:`str`]
             The path to save the edited image to. If not specified, the edited image will be returned as bytes.

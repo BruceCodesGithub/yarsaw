@@ -24,7 +24,7 @@ os.system("python -m pip install sphinx-rtd-theme")
 # -- Project information -----------------------------------------------------
 
 project = "YARSAW"
-copyright = "2021, BruceCodesGithub"
+copyright = "2022, BruceCodesGithub"
 author = "Bruce"
 
 
@@ -35,7 +35,6 @@ author = "Bruce"
 # ones.
 
 extensions = [
-    "attributetable",
     "sphinx.ext.autodoc",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
@@ -88,7 +87,7 @@ templates_path = ["_templates"]
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build"]
 
 # The style name to use for Pygments highlighting of source code.
 pygments_style = "friendly"
@@ -107,9 +106,9 @@ html_experimental_html5_writer = True
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 html_show_sphinx = False
 
-html_search_scorer = "_static/scorer.js"
+# html_search_scorer = "_static/scorer.js"
 
-html_js_files = ["copy.js", "settings.js", "sidebar.js", "custom.js"]
+# html_js_files = ["copy.js", "settings.js", "sidebar.js", "custom.js"]
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -120,4 +119,4 @@ html_theme = "furo"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+# html_static_path = ["_static"]

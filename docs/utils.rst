@@ -1,57 +1,60 @@
+##########
 Utils
-===========================================================
+##########
 
-===================================
+******************************
 Helper Functions
-===================================
+******************************
+
+.. currentmodule:: yarsaw
 
 Support functions for the :class:`Client` methods.
 
-.. autofunction:: yarsaw.format_joke()
+.. autofunction:: format_joke()
 
-.. autofunction:: yarsaw.generate_uid()
+.. autofunction:: generate_uid()
 
 
-===================================
+******************************
 Data Classes
-===================================
+******************************
 
-.. autoclass:: yarsaw.APIInfo
+.. autoclass:: APIInfo
 
-.. autoclass :: yarsaw.BotDetails
+.. autoclass :: BotDetails
    :members:
 
-.. autoclass :: yarsaw.AIResponse
+.. autoclass :: AIResponse
    :members:
 
-.. autoclass :: yarsaw.Joke
+.. autoclass :: Joke
    :members:
 
-.. autoclass:: yarsaw.RedditPost
+.. autoclass:: RedditPost
 
-.. autoclass:: yarsaw.Image
+.. autoclass:: Image
 
-.. autoclass:: yarsaw.CanvasResponse
+.. autoclass:: CanvasResponse
 
-.. autoclass:: yarsaw.Waifu
+.. autoclass:: Waifu
 
-.. autoclass:: yarsaw.Fact
+.. autoclass:: Fact
 
 
-===================================
+******************************
 Exceptions
-===================================
+******************************
 
-.. autoexception :: yarsaw.InvalidPlan
+.. autoexception :: InvalidPlan
    :members:
 
-.. autoexception :: yarsaw.InvalidAPIKey
+.. autoexception :: InvalidAPIKey
    :members:
 
-.. autoexception :: yarsaw.RateLimited
+.. autoexception :: RateLimited
    :members:
 
-.. autoexception :: yarsaw.BadGateway
+.. autoexception :: BadGateway
    :members:
 
 Documentation Last Updated on |today|

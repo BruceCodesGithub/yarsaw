@@ -1,10 +1,11 @@
+=========================
 Changelog
 =========================
 
 
-----------
+*************
 ``2.1``
-----------
+*************
 
 * Documentation update.
     * Change theme to ``furo``.
@@ -15,17 +16,17 @@ Changelog
 * Remove nested return type from ``get_animal_image()`` and ``get_anime_gif()``
 * Various changes.
 
-----------
+*************
 ``2.0.1``
-----------
+*************
 
 * Added support for ``/weather``
 * Parameter ``base`` was removed from class ``Client``
 * Error handling for incorrect API keys was improved
 
-----------
+*************
 ``2.0``
-----------
+*************
 
 This is a major change. The Random Stuff API was completely rewritten, and so was this module. Aside from new functions,
 
@@ -38,16 +39,16 @@ This is a major change. The Random Stuff API was completely rewritten, and so wa
 * ``RawClient`` was terminated.
 * A lot more updates
 
-----------
+*************
 ``1.3``
-----------
+*************
 
 * The ``Client`` class now returns objects which are easier to work with.
 * ``RawClient`` class can be used to return the raw JSON response from the API.
 
-----------
+*************
 ``1.2``
-----------
+*************
 
 * Updated Docs
     * Uses ReadTheDocs.
@@ -60,9 +61,9 @@ This is a major change. The Random Stuff API was completely rewritten, and so wa
 * Better code style (black).
 * Updated many other things.
 
-----------
+*************
 ``1.0``
-----------
+*************
 
 * Updated docs
 * Renamed functions in ``Client``
