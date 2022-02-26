@@ -2,6 +2,22 @@
 **Welcome to YARSAW!**
 ######################
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Documentation
+   :hidden:
+
+   client
+   utils
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: Other Pages and Resources
+   :hidden:
+
+   faq
+   changelog
+
 YARSAW is an open source, free and easy to use API Wrapper for the `Random Stuff API`_.
 
 
@@ -70,25 +86,9 @@ Examples
 
 Now just start reading the documentation!
 
-****************
-Contents
-****************
 
 .. tip::
    The :doc:`client` page contains all of the methods you can use to interact with the Random Stuff API, so we recommend reading that first.
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Documentation
-
-   client
-   utils
-   
-.. toctree::
-   :maxdepth: 1
-   :caption: Other Pages and Resources
-
-   faq
-   changelog
 
 Documentation Last Updated on |today|
