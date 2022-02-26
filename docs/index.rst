@@ -71,7 +71,7 @@ Examples
 Now just start reading the documentation!
 
 ****************
-Pages
+Contents
 ****************
 
 .. tip::
