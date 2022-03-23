@@ -4,15 +4,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v1
+      - uses: RojerGS/python-black-check@master
         with:
-          python-version: 3.7
-      - name: Install Black
-        run: pip install black
-      - name: Check if it needs reformatting
-        run: black yarsaw/* --check
-      - name: Run black.
-        if: failure()
-        run: black yarsaw/*
+          line-length: '88'
+          path: './yarsaw'
