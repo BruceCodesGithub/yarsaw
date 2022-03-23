@@ -68,7 +68,6 @@ class Client(HTTPClient):
         :class:`AIResponse`
             An object containing the AI response and its details.
         """
-
         response = await self.request("ai", params={"msg": message, **kwargs})
         return AIResponse(
             response.body["AIResponse"],
@@ -105,7 +104,6 @@ class Client(HTTPClient):
         :class:`Image`
             An object containing the image.
         """
-
         try:
             if animal.upper() not in ANIMAL_TYPES:
                 raise ValueError(
@@ -216,7 +214,6 @@ class Client(HTTPClient):
             If save_to is specified, the edited image will be saved to the specified path, and will 200.
 
         """
-
         params = {
             "txt": txt or text or "",
             "img1": img1 or "",
@@ -333,7 +330,6 @@ class Client(HTTPClient):
         :class:`Joke`
             An object containing the joke and its details.
         """
-
         joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
         while joke.safe is not True:
             joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
@@ -632,7 +628,6 @@ class Client(HTTPClient):
         :class:`Fact`
             An object containing the fact.
         """
-
         if fact_type.lower() not in FACT_TYPES:
             raise ValueError(
                 "Invalid Fact Type. Supported types are: " + ", ".join(FACT_TYPES)
