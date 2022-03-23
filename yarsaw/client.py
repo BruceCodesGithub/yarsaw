@@ -4,7 +4,6 @@ import base64
 import aiohttp
 from .data_classes import *
 from typing import Union
-import random
 
 
 class Client(HTTPClient):
