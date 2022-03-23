@@ -1,4 +1,4 @@
-name: autoblack
+name: black
 on: [pull_request, push]
 jobs:
   build:
@@ -11,5 +11,8 @@ jobs:
           python-version: 3.7
       - name: Install Black
         run: pip install black
+      - name: Check if it needs reformatting
+        run: black yarsaw/* --check
       - name: Run black.
+        if: failure()
         run: black yarsaw/*
