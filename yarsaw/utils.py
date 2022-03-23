@@ -33,8 +33,7 @@ def format_joke(joke: Joke, format_as="{setup}\n{delivery}") -> str:
         if joke.type == "twopart":
             return format_as.format(setup=joke.setup, delivery=joke.delivery)
         return joke.joke
-    else:
-        raise ValueError("The format_as string must contain {setup} and {delivery}")
+    raise ValueError("The format_as string must contain {setup} and {delivery}")
 
 
 def generate_uid(chars: int = 8, letters=True, special_chars=False):
