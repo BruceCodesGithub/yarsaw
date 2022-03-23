@@ -1,8 +1,6 @@
 """
 This example should work with Discord.py and most of it's forks, including Pycord. Check dpy-cogs.py to understand how to use YARSAW in Cogs.
 """
-
-import discord
 from discord.ext import commands
 import yarsaw
 
