@@ -17,10 +17,6 @@ import sys
 sys.path.insert(0, os.path.abspath(".."))
 sys.path.append(os.path.abspath("extensions"))
 
-os.system("python -m pip install sphinx-copybutton")
-os.system("python -m pip install sphinx-rtd-theme")
-
-
 # -- Project information -----------------------------------------------------
 
 project = "YARSAW"
