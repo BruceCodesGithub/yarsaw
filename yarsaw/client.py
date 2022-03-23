@@ -303,22 +303,21 @@ class Client(HTTPClient):
                 setup=response.body["setup"],
                 delivery=response.body["delivery"],
             )
-        else:
-            return Joke(
-                response.body["error"],
-                response.body["category"],
-                response.body["type"],
-                response.body["flags"],
-                response.body["id"],
-                response.body["safe"],
-                response.body["lang"],
-                APIInfo(
-                    int(response.headers["X-RateLimit-Requests-Limit"]),
-                    int(response.headers["X-RateLimit-Requests-Remaining"]),
-                    int(response.headers["X-RateLimit-Requests-Reset"]),
-                ),
-                joke=response.body["joke"],
-            )
+        return Joke(
+            response.body["error"],
+            response.body["category"],
+            response.body["type"],
+            response.body["flags"],
+            response.body["id"],
+            response.body["safe"],
+            response.body["lang"],
+            APIInfo(
+                int(response.headers["X-RateLimit-Requests-Limit"]),
+                int(response.headers["X-RateLimit-Requests-Remaining"]),
+                int(response.headers["X-RateLimit-Requests-Reset"]),
+            ),
+            joke=response.body["joke"],
+        )
 
     async def get_safe_joke(self, joke_type="any") -> Joke:
         """

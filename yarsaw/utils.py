@@ -32,8 +32,7 @@ def format_joke(joke: Joke, format_as="{setup}\n{delivery}") -> str:
     if "{setup}" in format_as and "{delivery}" in format_as:
         if joke.type == "twopart":
             return format_as.format(setup=joke.setup, delivery=joke.delivery)
-        else:
-            return joke.joke
+        return joke.joke
     else:
         raise ValueError("The format_as string must contain {setup} and {delivery}")
 
