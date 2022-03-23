@@ -10,7 +10,5 @@ jobs:
       - uses: psf/black@stable
       - uses: psf/black@stable
         with:
-          options: "--check --verbose"
-          src: "./src"
-          version: "21.5b1"
+          src: "./yarsaw"
           
