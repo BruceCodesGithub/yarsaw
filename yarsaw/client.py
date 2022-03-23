@@ -337,7 +337,7 @@ class Client(HTTPClient):
         """
 
         joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
-        while joke.safe != True:
+        while joke.safe is not True:
             joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
         return joke
 
