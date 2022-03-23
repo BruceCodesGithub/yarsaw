@@ -243,7 +243,7 @@ class Client(HTTPClient):
             ),
         )
 
-    async def get_joke(self, joke_type="any", blacklist: list = []) -> Joke:
+    async def get_joke(self, joke_type="any", blacklist: list = None) -> Joke:
         """
         Fetches jokes from the API.
 
@@ -262,6 +262,8 @@ class Client(HTTPClient):
         :class:`Joke`
             An object containing the joke and its details.
         """
+        if blacklist is None:
+            blacklist = []
         joke_type = joke_type.lower()
         if joke_type.lower() not in JOKE_TYPES:
             supported_types = ", ".join(JOKE_TYPES)
