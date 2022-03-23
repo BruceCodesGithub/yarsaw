@@ -15,12 +15,10 @@ class HTTPClient:
             raise TypeError(
                 "Expected authorization to be str, got {}".format(type(authorization))
             )
-        else:
-            self.__auth = authorization
+        self.__auth = authorization
         if not isinstance(key, str):
             raise TypeError("Expected key to be str, got {}".format(type(key)))
-        else:
-            self.__key = key
+        self.__key = key
         self._base = "https://random-stuff-api.p.rapidapi.com"
         self._session = aiohttp.ClientSession()
 
