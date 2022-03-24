@@ -110,10 +110,10 @@ class Client(HTTPClient):
                     "Animal not supported. Supported animals are: "
                     + ", ".join(ANIMAL_TYPES)
                 )
-        except AttributeError:
+        except AttributeError as e:
             raise ValueError(
                 "Invalid Parameter Type. Make sure you are passing a string."
-            )
+            ) from e
 
         response = await self.request(
             f"animals/{animal.upper()}", params={"limit": amount}
@@ -151,10 +151,10 @@ class Client(HTTPClient):
                     "Invalid Anime GIF Type. Supported types are: "
                     + ", ".join(ANIME_TYPES)
                 )
-        except AttributeError:
+        except AttributeError as e:
             raise ValueError(
                 "Invalid Parameter Type. Make sure you are passing a string."
-            )
+            ) from e
 
         response = await self.request(
             f"anime/{gif_type.lower()}", params={"limit": amount}
