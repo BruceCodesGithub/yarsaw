@@ -360,7 +360,7 @@ class Client(HTTPClient):
             )
 
         res = await self.request(
-            'reddit/FetchSubredditPost',
+            "reddit/FetchSubredditPost",
             params={"subreddit": subreddit, "searchType": search_type},
         )
 
@@ -411,7 +411,7 @@ class Client(HTTPClient):
             )
 
         res = await self.request(
-            'reddit/FetchPost',
+            "reddit/FetchPost",
             params={"subreddit": subreddit, "searchType": search_type},
         )
 
@@ -598,7 +598,7 @@ class Client(HTTPClient):
         :class:`list`
             A list containing the weather details.
         """
-        res = await self.request('weather', params={"city": city})
+        res = await self.request("weather", params={"city": city})
         try:
             res.body.append(
                 APIInfo(

@@ -8,8 +8,8 @@ dotenv.load_dotenv()
 
 client = yarsaw.Client(os.getenv("RSA_KEY"), os.getenv("APP_KEY"))
 
-class TestEndpoints(unittest.TestCase):
 
+class TestEndpoints(unittest.TestCase):
     async def ai(self):
         res = await client.get_ai_response("Hello")
         self.assertIsInstance(res, yarsaw.AIResponse)
@@ -31,7 +31,7 @@ class TestEndpoints(unittest.TestCase):
         self.assertIsInstance(res, yarsaw.Joke)
 
     async def fetch_subreddit_post(self):
-        res = await client.fetch_subreddit_post('aww')
+        res = await client.fetch_subreddit_post("aww")
         self.assertIsInstance(res, yarsaw.RedditPost)
 
     async def fetch_post(self):
@@ -86,5 +86,6 @@ class TestEndpoints(unittest.TestCase):
     def test_fact(self):
         asyncio.get_event_loop().run_until_complete(self.get_fact())
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
