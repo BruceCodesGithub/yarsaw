@@ -1,9 +1,0 @@
-name: black
-on: [pull_request, push]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: lgeiger/black-action@v1.0.1
-        with:
-          args: ". --check"
