@@ -1,10 +1,10 @@
 <h2 align="center">YARSAW</h2>
 <div align="center">
 
-<img alt="API Coverage" src="https://img.shields.io/badge/API%20Coverage-8%2F8%20Endpoints-blue?style=for-the-badge">
-<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dw/yarsaw?color=blue&style=for-the-badge">
-<img alt="PyPI - License" src="https://img.shields.io/pypi/l/yarsaw?color=blue&style=for-the-badge">
-<img alt="Documentation Status" src='https://readthedocs.org/projects/yarsaw/badge/?version=main&style=for-the-badge&color=blue'/>
+<a href="https://yarsaw.namantech.me/client.html"><img alt="API Coverage" src="https://img.shields.io/badge/API%20Coverage-8%2F8%20Endpoints-blue?style=for-the-badge"></a>
+<a href="https://pypi.org/project/yarsaw"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dw/yarsaw?color=blue&style=for-the-badge"></a>
+<a href="https://github.com/BruceCodesGithub/yarsaw/"><img alt="PyPI - License" src="https://img.shields.io/pypi/l/yarsaw?color=blue&style=for-the-badge"></a>
+<a href="https://yarsaw.namantech.me"><img alt="Documentation Status" src='https://readthedocs.org/projects/yarsaw/badge/?version=main&style=for-the-badge'/></a>
 
 
 </div>
