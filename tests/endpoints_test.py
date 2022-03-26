@@ -16,11 +16,11 @@ class TestEndpoints(unittest.TestCase):
 
     async def animal(self):
         res = await client.get_animal_image("Fox")
-        self.assertIsInstance(res, yarsaw.Image)
+        self.assertIsInstance(res, yarsaw.AnimalImage)
 
     async def anime(self):
-        res = await client.get_anime_gif("happy")
-        self.assertIsInstance(res, yarsaw.Image)
+        res = await client.get_anime_gif("happy", 1)
+        self.assertIsInstance(res, list[yarsaw.AnimeGIF])
 
     async def canvas(self):
         res = await client.canvas("changemymind", txt="YARSAW is Awesome!")

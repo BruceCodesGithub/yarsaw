@@ -22,21 +22,18 @@ Data Classes
 .. autoclass:: APIInfo
 
 .. autoclass :: BotDetails
-   :members:
 
 .. autoclass :: AIResponse
-   :members:
 
 .. autoclass :: Joke
-   :members:
 
 .. autoclass:: RedditPost
 
-.. autoclass:: Image
+.. autoclass:: AnimalImage
+
+.. autoclass:: AnimeGIF
 
 .. autoclass:: CanvasResponse
-
-.. autoclass:: Waifu
 
 .. autoclass:: Fact
 

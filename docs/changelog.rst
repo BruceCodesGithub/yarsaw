@@ -12,6 +12,7 @@ Changelog
 * Edit dataclasses.
     * Dataclasses now have more pythonic parameters for ease of use.
     * Replaced ``headers`` with ``APIInfo``.
+* Updated anime and joke methods to accomadate the latest API Changes.
 * Most methods now return dataclass objects.
 * Remove nested return type from ``get_animal_image()`` and ``get_anime_gif()``
 * Various changes.

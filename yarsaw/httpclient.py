@@ -12,17 +12,15 @@ class Response:
 class HTTPClient:
     def __init__(self, authorization: str, key):
         if not isinstance(authorization, str):
-            raise TypeError(
-                "Expected authorization to be str, got {}".format(type(authorization))
-            )
+            raise TypeError(f"Expected authorization to be str, got {type(authorization)}")
         self.__auth = authorization
         if not isinstance(key, str):
-            raise TypeError("Expected key to be str, got {}".format(type(key)))
+            raise TypeError(f"Expected key to be str, got {type(key)}")
         self.__key = key
         self._base = "https://random-stuff-api.p.rapidapi.com"
         self._session = aiohttp.ClientSession()
 
-    async def request(self, endpoint, *, params=None):
+    async def request(self, endpoint, *, params=None) -> Response:
         if params is None:
             params = {}
 
@@ -36,14 +34,14 @@ class HTTPClient:
                 },
                 params=params,
             )
-        except aiohttp.client_exceptions.ClientConnectorError:
-            raise ConnectionError("Could not connect to API.")
+        except aiohttp.client_exceptions.ClientConnectorError as e:
+            raise ConnectionError("Could not connect to API.") from e
         else:
             await check_res(response)
             try:
                 return Response(await response.json(), response.headers)
-            except aiohttp.client_exceptions.ContentTypeError:
-                raise RuntimeError(await response.text())
+            except aiohttp.client_exceptions.ContentTypeError as e:
+                raise RuntimeError(await response.text()) from e
 
     async def disconnect(self):
         await self._session.close()

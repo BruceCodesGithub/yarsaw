@@ -29,18 +29,9 @@ class AIResponse:
 
 @dataclass(frozen=True)
 class Joke:
-    error: bool
-    category: str
-    type: str
-    flags: dict
-    id: int
-    safe: bool
-    lang: str
+    joke: str
+    tags: list
     api_info: APIInfo
-    setup: str = None
-    delivery: str = None
-    joke: str = None
-
 
 @dataclass(frozen=True)
 class RedditPost:
@@ -64,10 +55,16 @@ class RedditPost:
 
 
 @dataclass(frozen=True)
-class Image:
+class AnimalImage:
     images: list
     api_info: APIInfo
 
+@dataclass(frozen=True)
+class AnimeGIF:
+    title: str
+    thumbnail: str
+    image: str
+    api_info: APIInfo
 
 @dataclass(frozen=True)
 class CanvasResponse:

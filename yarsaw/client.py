@@ -88,7 +88,7 @@ class Client(HTTPClient):
             ),
         )
 
-    async def get_animal_image(self, animal: str, amount: int = 1) -> Image:
+    async def get_animal_image(self, animal: str, amount: int = 1) -> AnimalImage:
         """
         Gets animal images from the API.
 
@@ -120,7 +120,7 @@ class Client(HTTPClient):
         )
         images = response.body
         image_list = [image["url"] for image in images]
-        return Image(
+        return AnimalImage(
             image_list,
             APIInfo(
                 int(response.headers["X-RateLimit-Requests-Limit"]),
@@ -129,46 +129,25 @@ class Client(HTTPClient):
             ),
         )
 
-    async def get_anime_gif(self, gif_type: str, amount: int = 1) -> Image:
+    async def get_anime_gif(self, query, channel) -> list[AnimeGIF]:
         """
-        Gets an anime gif from the API.
+        Get anime gifs from the API.
 
         Parameters
         -------------
-        gif_type: :class:`str`
-            The type of gif you want to get. Allowed Types: happy, hi, kiss, hug, punch, pat, slap, nervous, run, cry
-        amount: Optional[:class:`int`]
-            The number of gifs you want to get.
+        query: :class:`str`
+            The query you want to get gifs for.
+
+        channel: :class:`str`
+            The channel you want to get gifs from, could be 1, 2 or 3.
 
         Returns
         -------------
-        :class:`Image`
-            An object containing the gif.
+        :class:`list[AnimeGIF]`
+            A list of AnimeGIF objects.
         """
-        try:
-            if gif_type.lower() not in ANIME_TYPES:
-                raise ValueError(
-                    "Invalid Anime GIF Type. Supported types are: "
-                    + ", ".join(ANIME_TYPES)
-                )
-        except AttributeError as e:
-            raise ValueError(
-                "Invalid Parameter Type. Make sure you are passing a string."
-            ) from e
-
-        response = await self.request(
-            f"anime/{gif_type.lower()}", params={"limit": amount}
-        )
-        gifs = response.body
-        gif_list = [gif["url"] for gif in gifs]
-        return Image(
-            gif_list,
-            APIInfo(
-                int(response.headers["X-RateLimit-Requests-Limit"]),
-                int(response.headers["X-RateLimit-Requests-Remaining"]),
-                int(response.headers["X-RateLimit-Requests-Reset"]),
-            ),
-        )
+        res = await self.request("anime", params={"query": query, "channel": channel})
+        return [AnimeGIF(gif["title"], gif["thumbnail"], gif["image"]) for gif in res.body]
 
     async def canvas(
         self, method, save_to=None, txt=None, text=None, img1=None, img2=None, img3=None
@@ -239,101 +218,36 @@ class Client(HTTPClient):
             ),
         )
 
-    async def get_joke(self, joke_type="any", blacklist: list = None) -> Joke:
+    async def get_joke(self, tags: list = None, blacklist: list = None) -> Joke:
         """
-        Fetches jokes from the API.
+        Get random jokes from the API.
 
         Parameters
         -------------
-        joke_type: Optional[:class:`str`]
-            The type of joke you want to fetch.
-            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "Programming", "misc"
+        tags: Optional[:class:`list`]
+            A list of tags to filter the jokes by.
 
         blacklist: Optional[:class:`list`]
-            A list of types jokes you want to blacklist.
-            Allowed Values: "all", "nsfw", "religious", "political", "racist", "sexist", "explicit"
+            Blacklisted tags to filter the jokes by. Blacklist "dirty" if you want safe jokes.
 
         Returns
         -------------
         :class:`Joke`
-            An object containing the joke and its details.
+            A Joke object containing the joke and the tags.
         """
-        if blacklist is None:
-            blacklist = []
-        joke_type = joke_type.lower()
-        if joke_type.lower() not in JOKE_TYPES:
-            supported_types = ", ".join(JOKE_TYPES)
-            raise ValueError(f"Invalid Type. Supported types are: {supported_types}")
+        tags = [] if tags is None else ",".join(tags)
+        blacklist = [] if blacklist is None else ",".join(blacklist)
+        response = await self.request("joke", params={"tag":tags, "blacklist":blacklist})
 
-        # API Bug: The Joke Type Query must be titlecased if the type of joke is "programming"
-        if joke_type.lower() == "programming":
-            joke_type = "Programming"
-        else:
-            joke_type = joke_type.lower()
-
-        blist = ""
-        if blacklist:
-            if "all" in blacklist:
-                blist = "nsfw&religious&political&racist&sexist&explicit"
-            else:
-                blist = "&".join(blacklist)
-
-        response = await self.request(
-            f"joke?blacklist={blist}", params={"type": joke_type}
-        )
-
-        if response.body["type"] == "twopart":
-            return Joke(
-                response.body["error"],
-                response.body["category"],
-                response.body["type"],
-                response.body["flags"],
-                response.body["id"],
-                response.body["safe"],
-                response.body["lang"],
-                APIInfo(
-                    int(response.headers["X-RateLimit-Requests-Limit"]),
-                    int(response.headers["X-RateLimit-Requests-Remaining"]),
-                    int(response.headers["X-RateLimit-Requests-Reset"]),
-                ),
-                setup=response.body["setup"],
-                delivery=response.body["delivery"],
-            )
         return Joke(
-            response.body["error"],
-            response.body["category"],
-            response.body["type"],
-            response.body["flags"],
-            response.body["id"],
-            response.body["safe"],
-            response.body["lang"],
+            response.body["joke"],
+            response.body["tags"],
             APIInfo(
                 int(response.headers["X-RateLimit-Requests-Limit"]),
                 int(response.headers["X-RateLimit-Requests-Remaining"]),
                 int(response.headers["X-RateLimit-Requests-Reset"]),
             ),
-            joke=response.body["joke"],
         )
-
-    async def get_safe_joke(self, joke_type="any") -> Joke:
-        """
-        Fetches safe jokes from the API. These jokes are family-friendly.
-
-        Parameters
-        -------------
-        joke_type: Optional[:class:`str`]
-            The type of joke you want to fetch.
-            Allowed Values: "any", "dark", "pun", "spooky", "christmas", "Programming", "misc"
-
-        Returns
-        -------------
-        :class:`Joke`
-            An object containing the joke and its details.
-        """
-        joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
-        while joke.safe is not True:
-            joke = await self.get_joke(joke_type=joke_type, blacklist=["all"])
-        return joke
 
     async def fetch_subreddit_post(
         self, subreddit: str, search_type: str = "hot"
@@ -635,38 +549,6 @@ class Client(HTTPClient):
         res = await self.request(f"facts/{fact_type.lower()}")
         return Fact(
             res.body["fact"],
-            APIInfo(
-                int(res.headers["X-RateLimit-Requests-Limit"]),
-                int(res.headers["X-RateLimit-Requests-Remaining"]),
-                int(res.headers["X-RateLimit-Requests-Reset"]),
-            ),
-        )
-
-    async def get_waifu(self, image_type, waifu_type=None) -> Waifu:
-        """
-        Fetches SFW or NSFW waifu images from the API. PREMIUM ENDPOINT.
-
-        Parameters
-        -------------
-        image_type: :class:`str`
-            Whether you want SFW or NSFW images.
-
-        waifu_type: Optional[:class:`str`]
-            The type of waifu you want to fetch. Visit https://api-docs.pgamerx.com/Documentation/premium/waifu/#available-waifu_types for all available waifu types.
-
-        Returns
-        -------------
-        :class:`Waifu`
-            An object containing the waifu image url.
-        """
-        if waifu_type is None:
-            waifu_type = ""
-
-        res = await self.request(
-            f"waifu/{image_type}", params={"waifu_type": waifu_type}
-        )
-        return Waifu(
-            res.body["url"],
             APIInfo(
                 int(res.headers["X-RateLimit-Requests-Limit"]),
                 int(res.headers["X-RateLimit-Requests-Remaining"]),

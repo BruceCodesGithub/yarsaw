@@ -56,7 +56,10 @@ source_suffix = ".rst"
 master_doc = "index"
 
 
-version = "2.1.0b1"
+# search yarsaw/__init__.py for __version__
+
+with open("../yarsaw/__init__.py", "r") as f:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 if version:
     release = version
