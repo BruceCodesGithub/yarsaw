@@ -1,8 +1,7 @@
 version: 2
-formats: []
 
 build:
-  image: latest
+  image: main
 
 sphinx:
   configuration: docs/conf.py
