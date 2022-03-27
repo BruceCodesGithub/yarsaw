@@ -56,9 +56,9 @@ Does this wrapper still work?
 ******************************
 YES! Unlike most other wrappers, YARSAW still works! Although the API was shifted to RapidAPI and had tons of changes, the wrapper was updated accordingly to accomodate the changes.
 
-**************
+***************
 I have an issue
-**************
+***************
 If its an issue with the wrapper, please open an issue at `GitHub <https://github.com/BruceCodesGithub/yarsaw/issues>`_. If there's a question about the API itself, please join `the PGamerX Studio Discord Server <https://discord.gg/wWgjpK9MDv>`_ and ask there.
 
 ****************************
