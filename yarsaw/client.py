@@ -129,7 +129,7 @@ class Client(HTTPClient):
             ),
         )
 
-    async def get_anime_gif(self, query, channel) -> list[AnimeGIF]:
+    async def get_anime_gif(self, query, channel) -> list:
         """
         Get anime gifs from the API.
 
@@ -143,7 +143,7 @@ class Client(HTTPClient):
 
         Returns
         -------------
-        :class:`list[AnimeGIF]`
+        :class:`list`
             A list of AnimeGIF objects.
         """
         res = await self.request("anime", params={"query": query, "channel": channel})
