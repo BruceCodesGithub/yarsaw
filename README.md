@@ -46,10 +46,10 @@ asyncio.get_event_loop().run_until_complete(joke()) # run the joke() function
 ## Installation
 
 ```bash
-python3 -m pip install yarsaw
+python3 -m pip install -U yarsaw
 ```
 
-## Links
+## Useful Links
 
 - [**Documentation**](https://yarsaw.namantech.me/)
 - [**Random Stuff API**](https://rapidapi.com/pgamerxdev/api/random-stuff-api/)
