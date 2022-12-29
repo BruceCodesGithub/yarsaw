@@ -1,4 +1,4 @@
-sphinx==4.4.0
+sphinx==6.0.0
 furo==2022.3.4
 sphinx_copybutton==0.5.0
 aiohttp==3.8.1
